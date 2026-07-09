@@ -1,6 +1,21 @@
 # Madi Freck — Animation Portfolio
 
-A single-page portfolio landing site.
+A single-page portfolio site. Everything lives in `index.html`; each nav item is
+a `<section class="page">` (`#home`, `#twod`, `#stopmotion`, `#skills`, `#about`).
+
+## Navigation (how the pages switch)
+
+Clicking a nav link just changes the URL hash (e.g. `#twod`). `js/main.js` then
+shows that one section and hides the rest — **nothing reloads**. Because the
+document never changes, the custom cursor never flashes back to the default.
+
+- Works even when you **double-click `index.html`** (`file://`) — no server needed.
+- Each view has a shareable URL, e.g. `…/index.html#about`.
+- Only the visible section's media loads (browsers don't fetch images/videos
+  inside a `hidden` element until it's shown), so adding lots of media is fine.
+- To add a page: add a `<section id="newid" class="page section">…</section>`
+  inside `<main id="app">` and a `<li><a href="#newid">…</a></li>` to the nav.
+  The router picks it up automatically.
 
 ## Swapping in your own art
 
@@ -18,16 +33,19 @@ works, just update the `src` in `index.html` if you change the extension):
 
 ## Font
 
-Drop your **Jack Armstrong** font file into the `fonts/` folder as
-`fonts/JackArmstrong.woff2` (`.woff` or `.ttf` also supported). Until then the
-site falls back to a handwritten-style font.
+The **Jack Armstrong** font is installed at `fonts/Jack Armstrong.ttf` and loaded
+via `@font-face` in `css/style.css`. If it's ever missing, the site falls back to
+a handwritten-style font.
 
 ## Colours
 
-- Background yellow: `#f5b301`
-- Accent dark red: `#7a1420`
+All sampled from `images/profile pic.png`:
 
-Both are defined at the top of `css/style.css` if you want to tweak them.
+- Background yellow: `#feb800`
+- Accent red (hair): `#9b0302`
+- Blue (stars) — cursor & text highlight: `#0147ff`
+
+Defined at the top of `css/style.css` if you want to tweak them.
 
 ## Viewing
 

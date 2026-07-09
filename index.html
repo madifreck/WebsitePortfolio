@@ -4,33 +4,95 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Madi Freck — Animation Portfolio</title>
+  <link rel="icon" type="image/png" href="images/favicon-circle.png" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <main class="hero">
-    <!-- Top hand-drawn swoosh / arrow -->
-    <img class="swoosh swoosh--top" src="images/arrow-top.svg" alt="" />
+  <nav class="nav">
+    <ul class="nav__list">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#twod">2D</a></li>
+      <li><a href="#stopmotion">Stop-Motion</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </nav>
 
-    <div class="name-row">
-      <!-- Left hand-drawn star -->
-      <img class="star star--left" src="images/star-left.svg" alt="" />
+  <main id="app">
+    <!-- HOME -->
+    <section id="home" class="page section hero">
+      <h1 class="name-title">
+        <img src="images/name%20title.png" alt="Madi Freck" />
+      </h1>
 
-      <h1 class="name">Madi Freck</h1>
+      <p class="role">2D &amp; Stop-Motion Animator</p>
+      <p class="university">Teesside University</p>
 
-      <!-- Right hand-drawn star -->
-      <img class="star star--right" src="images/star-right.svg" alt="" />
-    </div>
+      <h2 class="showreel-title">Showreel</h2>
+    </section>
 
-    <!-- Bottom hand-drawn swoosh / arrow -->
-    <img class="swoosh swoosh--bottom" src="images/arrow-bottom.svg" alt="" />
+    <!-- 2D -->
+    <section id="twod" class="page section">
+      <h2 class="section__title">2D</h2>
+      <p class="section__text">2D animation work goes here.</p>
+      <div class="grid">
+        <div class="card">Project 1</div>
+        <div class="card">Project 2</div>
+        <div class="card">Project 3</div>
+      </div>
+    </section>
 
-    <!-- Placeholder profile picture -->
-    <div class="profile">
-      <img src="images/profile.svg" alt="Portrait of Madi Freck" />
-    </div>
+    <!-- STOP-MOTION -->
+    <section id="stopmotion" class="page section">
+      <h2 class="section__title">Stop-Motion</h2>
+      <p class="section__text">Stop-motion animation work goes here.</p>
+      <div class="grid">
+        <div class="card">Project 1</div>
+        <div class="card">Project 2</div>
+        <div class="card">Project 3</div>
+      </div>
+    </section>
 
-    <p class="role">2D &amp; Stop-Motion Animator</p>
-    <p class="university">Teesside University</p>
+    <!-- SKILLS -->
+    <section id="skills" class="page section">
+      <h3 class="skills-subtitle skills-subtitle--first">Software</h3>
+      <ul class="skills software">
+        <li>ToonBoom Harmony</li>
+        <li>DragonFrame</li>
+        <li>Premiere Pro</li>
+        <li>After Effects</li>
+        <li>Photoshop</li>
+      </ul>
+
+      <h3 class="skills-subtitle">Skills</h3>
+      <ul class="skills">
+        <li>2D Animation</li>
+        <li>Stop-Motion</li>
+        <li>Storyboarding</li>
+        <li>Character Design</li>
+        <li>Illustration</li>
+        <li>Editing</li>
+      </ul>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="page section about-section">
+      <figure class="about-figure">
+        <img src="images/emptyspeechbubble.png" alt="Madi Freck with a speech bubble" />
+        <div class="bubble-text">
+          <p>
+            Hello, I'm Madi Freck, a 2nd Year 2D Animation and Stop-motion student
+            at Teesside University.
+          </p>
+          <p>
+            I specialise in stop-motion puppet making, frame-by-frame animation
+            and creating 2D character rigs.
+          </p>
+        </div>
+      </figure>
+    </section>
   </main>
+
+  <script src="js/main.js"></script>
 </body>
 </html>
