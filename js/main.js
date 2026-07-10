@@ -1,16 +1,13 @@
-// Shared red-star image used by the click pop and the drag trail.
-var STAR_SRC =
-  "data:image/svg+xml;utf8," +
-  encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">' +
-      '<path d="M20 2 L24 15 L38 15 L27 23 L31 37 L20 28 L9 37 L13 23 L2 15 L16 15 Z" ' +
-      'fill="#9b0302" stroke="#5a0101" stroke-width="1.5" stroke-linejoin="round"/>' +
-    "</svg>"
-  );
+// The two hand-drawn red stars — one is picked at random each time.
+var STAR_SRCS = ["images/star-big.png", "images/star-small.png"];
+
+function randomStarSrc() {
+  return STAR_SRCS[Math.floor(Math.random() * STAR_SRCS.length)];
+}
 
 function spawnStar(className, x, y, decorate) {
   var star = document.createElement("img");
-  star.src = STAR_SRC;
+  star.src = randomStarSrc();
   star.className = className;
   star.alt = "";
   star.style.left = x + "px";
@@ -35,7 +32,7 @@ function rand(min, max) {
 function decorateTrailStar(star) {
   var size = rand(15, 30);
   star.style.width = size + "px";
-  star.style.height = size + "px";
+  star.style.height = "auto"; // keep each star's own proportions
   star.style.marginLeft = -size / 2 + "px";
   star.style.marginTop = -size / 2 + "px";
   star.style.setProperty("--dx", rand(-12, 12).toFixed(1) + "px");
@@ -122,4 +119,98 @@ document.addEventListener("click", function (e) {
 
   window.addEventListener("hashchange", fromHash);
   fromHash(); // set the correct page on first load
+})();
+
+// ---- 4. Project breakdown overlay ----
+// Clicking a project card opens the breakdown, populated with that card's title.
+(function () {
+  var modal = document.getElementById("breakdown");
+  if (!modal) return;
+
+  var body = modal.querySelector(".breakdown__body");
+
+  // Per-project breakdown content. Projects not listed here fall back to a
+  // default template built from the card's data-title / data-role.
+  var PROJECTS = {
+    bookwyrm: {
+      title: "A Bookwyrm’s Treasure",
+      meta1: "Case Study | Team Project",
+      meta2: "Year | DragonFrame",
+      role: "Puppet Fabrication | Animator",
+      note: null,
+      sections: [
+        {
+          heading: "Puppet",
+          html:
+            '<div class="breakdown__row">' +
+            '<span class="breakdown__frame"><img src="images/miles%20photo%203.jpg" alt="Puppet photo"></span>' +
+            '<span class="breakdown__frame"><img src="images/miles%20photo%201.jpg" alt="Puppet photo"></span>' +
+            '<span class="breakdown__frame"><img src="images/miles%20photo%202.jpg" alt="Puppet photo"></span>' +
+            "</div>",
+        },
+      ],
+    },
+  };
+
+  function defaultConfig(card) {
+    return {
+      title: card.getAttribute("data-title") || "Project",
+      meta1: "Case Study | Solo Project",
+      meta2: "Year | Software",
+      role: card.getAttribute("data-role") || "Animator",
+      note: "Placeholder — work to be uploaded.",
+      sections: [
+        {
+          heading: "Character Turnaround",
+          html:
+            '<span class="breakdown__frame breakdown__frame--wide">' +
+            '<img src="images/cat%20turnround.png" alt="Character turnaround"></span>',
+        },
+      ],
+    };
+  }
+
+  function buildBody(cfg) {
+    var html = "";
+    html += '<h2 class="breakdown__title" id="breakdown-title">' + cfg.title + "</h2>";
+    html += '<p class="breakdown__meta breakdown__meta--blue">' + cfg.meta1 + "</p>";
+    html += '<p class="breakdown__meta">' + cfg.meta2 + "</p>";
+    html += '<div class="breakdown__media breakdown__media--blue"><span>Animation</span></div>';
+    html += '<p class="breakdown__role">' + cfg.role + "</p>";
+    cfg.sections.forEach(function (sec) {
+      html += '<h3 class="breakdown__section">' + sec.heading + "</h3>";
+      html += sec.html;
+    });
+    if (cfg.note) html += '<p class="breakdown__note">' + cfg.note + "</p>";
+    return html;
+  }
+
+  function open(card) {
+    var key = card.getAttribute("data-project");
+    var cfg = (key && PROJECTS[key]) ? PROJECTS[key] : defaultConfig(card);
+    body.innerHTML = buildBody(cfg);
+    body.scrollTop = 0;
+    modal.hidden = false;
+    document.body.style.overflow = "hidden"; // stop background scroll
+  }
+
+  function close() {
+    modal.hidden = true;
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("click", function (e) {
+    var card = e.target.closest && e.target.closest(".project-card");
+    if (card) {
+      open(card);
+      return;
+    }
+    if (e.target.closest && e.target.closest("[data-close]")) {
+      close();
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !modal.hidden) close();
+  });
 })();

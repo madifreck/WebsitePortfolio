@@ -33,23 +33,69 @@
 
     <!-- 2D -->
     <section id="twod" class="page section">
-      <h2 class="section__title">2D</h2>
-      <p class="section__text">2D animation work goes here.</p>
-      <div class="grid">
-        <div class="card">Project 1</div>
-        <div class="card">Project 2</div>
-        <div class="card">Project 3</div>
+      <div class="projects">
+        <button class="project-card" data-title="Project One" data-role="Character Art | Rigging Artist">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">Project One</span>
+            <span class="project-card__sub">2D character rig</span>
+          </span>
+        </button>
+        <button class="project-card" data-title="Project Two" data-role="Animator">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">Project Two</span>
+            <span class="project-card__sub">group project</span>
+          </span>
+        </button>
+        <button class="project-card" data-title="Project Three" data-role="Animator">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">Project Three</span>
+            <span class="project-card__sub">short film</span>
+          </span>
+        </button>
+        <button class="project-card" data-title="Project Four" data-role="Animator">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">Project Four</span>
+            <span class="project-card__sub">personal project</span>
+          </span>
+        </button>
       </div>
     </section>
 
     <!-- STOP-MOTION -->
     <section id="stopmotion" class="page section">
-      <h2 class="section__title">Stop-Motion</h2>
-      <p class="section__text">Stop-motion animation work goes here.</p>
-      <div class="grid">
-        <div class="card">Project 1</div>
-        <div class="card">Project 2</div>
-        <div class="card">Project 3</div>
+      <div class="projects">
+        <button class="project-card" data-project="bookwyrm" data-title="A Bookwyrm&rsquo;s Treasure">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">A Bookwyrm&rsquo;s Treasure</span>
+            <span class="project-card__sub">Team Project</span>
+          </span>
+        </button>
+        <button class="project-card" data-title="Project Two" data-role="Animator">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">Project Two</span>
+            <span class="project-card__sub">group project</span>
+          </span>
+        </button>
+        <button class="project-card" data-title="Project Three" data-role="Animator">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">Project Three</span>
+            <span class="project-card__sub">short film</span>
+          </span>
+        </button>
+        <button class="project-card" data-title="Project Four" data-role="Animator">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">Project Four</span>
+            <span class="project-card__sub">personal project</span>
+          </span>
+        </button>
       </div>
     </section>
 
@@ -92,6 +138,38 @@
       </figure>
     </section>
   </main>
+
+  <!-- Contact details, shown at the bottom of every page -->
+  <footer class="contact">
+    <h2 class="contact__title">Contact</h2>
+    <a class="contact__email" href="mailto:madifreckelton@gmail.com">madifreckelton@gmail.com</a>
+    <div class="contact__socials">
+      <a href="https://www.linkedin.com/in/madi-freck-b45116370?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.5 8h4V24h-4V8zM8 8h3.8v2.2h.05c.53-1 1.83-2.2 3.77-2.2 4.03 0 4.78 2.65 4.78 6.1V24h-4v-7.1c0-1.7-.03-3.9-2.38-3.9-2.38 0-2.75 1.86-2.75 3.78V24H8V8z"/>
+        </svg>
+      </a>
+      <a href="https://www.instagram.com/madi.freck?igsh=eTBpb3h4Zm0ycWM2" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5.5" />
+          <circle cx="12" cy="12" r="4.5" />
+          <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Project breakdown overlay (opens when a project card is clicked) -->
+  <div class="breakdown" id="breakdown" hidden>
+    <div class="breakdown__backdrop" data-close></div>
+    <div class="breakdown__panel" role="dialog" aria-modal="true" aria-labelledby="breakdown-title">
+      <button class="breakdown__close" data-close aria-label="Back">
+        <img src="images/back-arrow.png" alt="Back" />
+      </button>
+
+      <div class="breakdown__body"><!-- filled in by js/main.js --></div>
+    </div>
+  </div>
 
   <script src="js/main.js"></script>
 </body>
