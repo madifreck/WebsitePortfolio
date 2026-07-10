@@ -1,0 +1,10 @@
+# Large video source files — over GitHub's 100 MB limit.
+# Host big films on Vimeo/YouTube; keep only the small webM in the repo.
+videos/ChitChat_Final.mp4
+
+# Partial / in-progress downloads
+*.crdownload
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store

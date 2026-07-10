@@ -128,15 +128,38 @@ document.addEventListener("click", function (e) {
   if (!modal) return;
 
   var body = modal.querySelector(".breakdown__body");
+  var prevBtn = modal.querySelector(".breakdown__prev");
+  var nextBtn = modal.querySelector(".breakdown__next");
+  var currentCard = null;
+
+  // The previous/next project card within the same category grid, or null.
+  function adjacentCard(card, step) {
+    if (!card || !card.parentNode) return null;
+    var cards = Array.prototype.slice.call(
+      card.parentNode.querySelectorAll(".project-card")
+    );
+    var i = cards.indexOf(card);
+    return i === -1 ? null : cards[i + step] || null;
+  }
 
   // Per-project breakdown content. Projects not listed here fall back to a
   // default template built from the card's data-title / data-role.
   var PROJECTS = {
     bookwyrm: {
       title: "A Bookwyrm’s Treasure",
-      meta1: "Case Study | Team Project",
-      meta2: "Year | DragonFrame",
-      role: "Puppet Fabrication | Animator",
+      meta1: "Team Project",
+      meta2: "Jan 2026 | DragonFrame | Adobe Suite",
+      webm: "videos/Chitchat%20Final%20webM.webm",
+      video: "videos/ChitChat_Final.mp4",
+      poster: "images/dragon%20preview.png",
+
+      role: "Character Artist | Puppet Maker | Animator | Editor",
+      synopsis:
+        "Synopsis: Miles Nelson, the Bookwyrm, recounts his passion for writing " +
+        "and the process of it, whilst also delving into how some of his own " +
+        "stories play out, such as the Forge and the Flood, which was made for " +
+        "his husband, and how he feels about the process of getting from first " +
+        "draft to final copy.",
       note: null,
       sections: [
         {
@@ -144,9 +167,26 @@ document.addEventListener("click", function (e) {
           html:
             '<div class="breakdown__row">' +
             '<span class="breakdown__frame"><img src="images/miles%20photo%203.jpg" alt="Puppet photo"></span>' +
-            '<span class="breakdown__frame"><img src="images/miles%20photo%201.jpg" alt="Puppet photo"></span>' +
             '<span class="breakdown__frame"><img src="images/miles%20photo%202.jpg" alt="Puppet photo"></span>' +
-            "</div>",
+            '<span class="breakdown__frame"><img src="images/miles%20photo%201.jpg" alt="Puppet photo"></span>' +
+            "</div>" +
+            '<h3 class="breakdown__section breakdown__section--red">Personal Contributions</h3>' +
+            '<div class="breakdown__media breakdown__media--blue"></div>',
+        },
+      ],
+    },
+    cathatesme: {
+      title: "My cat hates me",
+      meta1: "Solo Project",
+      meta2: "Jan 2026 | ToonBoom | Adobe Suite",
+      webm: "videos/My%20Cat%20Hates%20Me%20webM.webm",
+      video: "videos/my%20cat%20hates%20me.mp4",
+      role: "Character Art | Storyboard Artist | Animator | Editor",
+      note: null,
+      sections: [
+        {
+          heading: "Concept Art",
+          html: '<div class="breakdown__media breakdown__media--red"><span>Concept art</span></div>',
         },
       ],
     },
@@ -175,8 +215,20 @@ document.addEventListener("click", function (e) {
     html += '<h2 class="breakdown__title" id="breakdown-title">' + cfg.title + "</h2>";
     html += '<p class="breakdown__meta breakdown__meta--blue">' + cfg.meta1 + "</p>";
     html += '<p class="breakdown__meta">' + cfg.meta2 + "</p>";
-    html += '<div class="breakdown__media breakdown__media--blue"><span>Animation</span></div>';
+    if (cfg.video) {
+      html +=
+        '<div class="breakdown__videoframe">' +
+        '<video controls playsinline preload="metadata"' +
+        (cfg.poster ? ' poster="' + cfg.poster + '"' : "") +
+        ">" +
+        (cfg.webm ? '<source src="' + cfg.webm + '" type="video/webm">' : "") +
+        '<source src="' + cfg.video + '" type="video/mp4">' +
+        "</video></div>";
+    } else {
+      html += '<div class="breakdown__media breakdown__media--blue"><span>Animation</span></div>';
+    }
     html += '<p class="breakdown__role">' + cfg.role + "</p>";
+    if (cfg.synopsis) html += '<p class="breakdown__synopsis">' + cfg.synopsis + "</p>";
     cfg.sections.forEach(function (sec) {
       html += '<h3 class="breakdown__section">' + sec.heading + "</h3>";
       html += sec.html;
@@ -186,11 +238,16 @@ document.addEventListener("click", function (e) {
   }
 
   function open(card) {
+    currentCard = card;
     var key = card.getAttribute("data-project");
     var cfg = (key && PROJECTS[key]) ? PROJECTS[key] : defaultConfig(card);
     body.innerHTML = buildBody(cfg);
-    body.scrollTop = 0;
+    // Show prev/next only when there is a card to go to
+    prevBtn.hidden = !adjacentCard(card, -1);
+    nextBtn.hidden = !adjacentCard(card, 1);
     modal.hidden = false;
+    modal.scrollTop = 0;
+    body.scrollTop = 0;
     document.body.style.overflow = "hidden"; // stop background scroll
   }
 
@@ -210,7 +267,50 @@ document.addEventListener("click", function (e) {
     }
   });
 
+  prevBtn.addEventListener("click", function () {
+    var p = adjacentCard(currentCard, -1);
+    if (p) open(p);
+  });
+  nextBtn.addEventListener("click", function () {
+    var n = adjacentCard(currentCard, 1);
+    if (n) open(n);
+  });
+
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && !modal.hidden) close();
+  });
+})();
+
+// ---- 5. Lightbox: click a breakdown photo to enlarge it ----
+(function () {
+  var box = document.createElement("div");
+  box.className = "lightbox";
+  box.hidden = true;
+  box.innerHTML = '<img alt="Enlarged view">';
+  document.body.appendChild(box);
+  var big = box.querySelector("img");
+
+  function openLightbox(src) {
+    big.src = src;
+    box.hidden = false;
+  }
+  function closeLightbox() {
+    box.hidden = true;
+    big.removeAttribute("src");
+  }
+
+  document.addEventListener("click", function (e) {
+    var img = e.target.closest && e.target.closest(".breakdown__frame img");
+    if (img) {
+      openLightbox(img.getAttribute("src"));
+      return;
+    }
+    if (!box.hidden && e.target.closest && e.target.closest(".lightbox")) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !box.hidden) closeLightbox();
   });
 })();

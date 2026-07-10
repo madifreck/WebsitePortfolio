@@ -29,30 +29,31 @@
       <p class="university">Teesside University</p>
 
       <h2 class="showreel-title">Showreel</h2>
+      <div class="showreel-box"></div>
     </section>
 
     <!-- 2D -->
     <section id="twod" class="page section">
       <div class="projects">
-        <button class="project-card" data-title="Project One" data-role="Character Art | Rigging Artist">
+        <button class="project-card" data-title="Mr Mittens" data-role="Character Art | Rigging Artist">
           <span class="project-card__media"></span>
           <span class="project-card__caption">
-            <span class="project-card__title">Project One</span>
-            <span class="project-card__sub">2D character rig</span>
+            <span class="project-card__title">Mr Mittens</span>
+            <span class="project-card__sub">Solo Project</span>
           </span>
         </button>
-        <button class="project-card" data-title="Project Two" data-role="Animator">
+        <button class="project-card" data-title="ATLA - intro" data-role="Animator">
           <span class="project-card__media"></span>
           <span class="project-card__caption">
-            <span class="project-card__title">Project Two</span>
+            <span class="project-card__title">ATLA - intro</span>
             <span class="project-card__sub">group project</span>
           </span>
         </button>
-        <button class="project-card" data-title="Project Three" data-role="Animator">
-          <span class="project-card__media"></span>
+        <button class="project-card" data-project="cathatesme" data-title="My cat hates me">
+          <span class="project-card__media" style="background-image: url('images/my%20cat%20hates%20me%20cover%20image.png'); background-position: 70% center"></span>
           <span class="project-card__caption">
-            <span class="project-card__title">Project Three</span>
-            <span class="project-card__sub">short film</span>
+            <span class="project-card__title">My cat hates me</span>
+            <span class="project-card__sub">Solo Project</span>
           </span>
         </button>
         <button class="project-card" data-title="Project Four" data-role="Animator">
@@ -69,7 +70,7 @@
     <section id="stopmotion" class="page section">
       <div class="projects">
         <button class="project-card" data-project="bookwyrm" data-title="A Bookwyrm&rsquo;s Treasure">
-          <span class="project-card__media"></span>
+          <span class="project-card__media" style="background-image: url('images/dragon%20preview.png')"></span>
           <span class="project-card__caption">
             <span class="project-card__title">A Bookwyrm&rsquo;s Treasure</span>
             <span class="project-card__sub">Team Project</span>
@@ -119,6 +120,14 @@
         <li>Illustration</li>
         <li>Editing</li>
       </ul>
+
+      <h3 class="skills-subtitle">CV</h3>
+      <div class="cv">
+        <a class="cv__frame" href="MadiFreck_CV.pdf" target="_blank" rel="noopener" aria-label="Open Madi Freck CV (PDF)">
+          <img src="images/cv-preview.png" alt="Madi Freck CV preview" />
+        </a>
+        <a class="cv__link" href="MadiFreck_CV.pdf" download>Download</a>
+      </div>
     </section>
 
     <!-- ABOUT -->
@@ -168,6 +177,11 @@
       </button>
 
       <div class="breakdown__body"><!-- filled in by js/main.js --></div>
+
+      <div class="breakdown__nav">
+        <button type="button" class="breakdown__navbtn breakdown__prev" hidden>&larr; Previous</button>
+        <button type="button" class="breakdown__navbtn breakdown__next" hidden>Next &rarr;</button>
+      </div>
     </div>
   </div>
 

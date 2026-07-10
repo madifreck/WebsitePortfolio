@@ -17,8 +17,8 @@
   --ink: #1a1a1a;
   --font: "Jack Armstrong", "Comic Sans MS", cursive, sans-serif;
 
-  /* Hand-drawn arrow cursor (hotspot at the arrow tip) */
-  --cursor: url("../images/cursor-cut.png") 52 16;
+  /* Hand-drawn arrow cursor (hotspot at the highest point of the arrow) */
+  --cursor: url("../images/cursor-cut.png") 3 0;
 }
 
 * {
@@ -83,18 +83,18 @@ body {
   color: var(--dark-red);
   text-decoration: none;
   font-size: clamp(1.1rem, 3vw, 1.5rem);
-  padding: 0.2rem 0.4rem;
-  transition: opacity 0.15s ease;
+  padding: 0.2rem 0.4rem 0.55rem;
+  /* hand-drawn blue underline, hidden until hover/active (width 0) */
+  background: url("../images/blue-line.png") center bottom / 0% 7px no-repeat;
+  transition: background-size 0.15s ease;
 }
 
-.nav__list a:hover {
-  opacity: 0.75;
-  text-decoration: underline;
+.nav__list a:hover,
+.nav__list a.active {
+  background-size: 88% 7px;
 }
 
 .nav__list a.active {
-  text-decoration: underline;
-  text-underline-offset: 4px;
   font-weight: bold;
 }
 
@@ -222,6 +222,14 @@ body {
   margin-top: 3.5rem;
 }
 
+.showreel-box {
+  width: min(90%, 640px);
+  aspect-ratio: 16 / 9;
+  margin: 1.25rem auto 0;
+  border: 13px solid transparent;
+  border-image: url("../images/blue-border.png") 40 / 13px stretch;
+}
+
 /* ---- About page ---- */
 .about-section {
   min-height: calc(100vh - 60px);
@@ -297,12 +305,17 @@ body {
   aspect-ratio: 4 / 3;
   border: 11px solid transparent;
   border-image: url("../images/blue-border.png") 40 / 11px stretch;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-clip: padding-box; /* keep the image inside the border, no side bleed */
 }
 
 .project-card__caption {
   display: flex;
   flex-direction: column;
-  padding-top: 0.55rem;
+  margin-top: -0.2rem;
+  padding-top: 0.95rem;
   background: url("../images/red-line.png") top center / 100% 10px no-repeat;
 }
 
@@ -360,6 +373,15 @@ body {
   width: clamp(4rem, 10vw, 6.5rem);
   height: auto;
   display: block;
+  transform-origin: top left;
+  animation: arrow-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Pops in each time the breakdown opens (parent goes display:none -> shown) */
+@keyframes arrow-pop {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.12); }
+  100% { transform: scale(1); }
 }
 
 .breakdown__close:hover {
@@ -390,11 +412,24 @@ body {
   margin: 0.6rem 0 0.25rem;
 }
 
+.breakdown__synopsis {
+  color: var(--ink);
+  text-align: center;
+  max-width: 620px;
+  margin: 1.25rem auto;
+  line-height: 1.5;
+  font-size: clamp(1rem, 2.6vw, 1.2rem);
+}
+
 .breakdown__section {
   color: var(--dark-blue);
   font-weight: normal;
   font-size: clamp(1.5rem, 5vw, 2.2rem);
   margin: 1.5rem 0 0.6rem;
+}
+
+.breakdown__section--red {
+  color: var(--dark-red);
 }
 
 .breakdown__media {
@@ -417,6 +452,20 @@ body {
   color: var(--dark-red);
 }
 
+/* Framed animation video (hand-drawn blue border) */
+.breakdown__videoframe {
+  margin-top: 0.75rem;
+  border: 13px solid transparent;
+  border-image: url("../images/blue-border.png") 40 / 13px stretch;
+}
+
+.breakdown__videoframe video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000;
+}
+
 /* Framed image inside a breakdown (hand-drawn red border) */
 .breakdown__frame {
   display: block;
@@ -429,6 +478,38 @@ body {
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* Hint that framed photos are clickable */
+.breakdown__frame img {
+  transition: filter 0.15s ease;
+}
+.breakdown__frame img:hover {
+  filter: brightness(1.07);
+}
+
+/* Lightbox for enlarged photos */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5vh 2.5vw;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox img {
+  max-width: 96%;
+  max-height: 96%;
+  width: auto;
+  height: auto;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.6);
 }
 
 /* Row of framed photos (e.g. puppet shots) */
@@ -452,11 +533,38 @@ body {
   text-align: center;
 }
 
+/* Previous / Next navigation between projects */
+.breakdown__nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.breakdown__navbtn {
+  background: var(--dark-blue);
+  color: var(--yellow);
+  border: none;
+  font: inherit;
+  font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+  padding: 0.5rem 1.4rem;
+  border-radius: 999px;
+}
+
+.breakdown__navbtn[hidden] {
+  display: none;
+}
+
+/* keep Next on the right even when Previous is hidden */
+.breakdown__next {
+  margin-left: auto;
+}
+
 /* ---- Contact footer (on every page) ---- */
 .contact {
   text-align: center;
-  padding: 2rem 1rem 2.5rem;
-  margin-top: 1rem;
+  padding: 1.75rem 1rem 2.5rem;
+  margin-top: 0;
 }
 
 /* Divider line — a hand-drawn stroke sliced from the blue border */
@@ -523,12 +631,46 @@ body {
   font-weight: normal;
   font-size: clamp(1.4rem, 5vw, 2rem);
   margin: 2.25rem 0 1rem;
-  -webkit-text-stroke: 1px #000; /* thin black outline */
-  text-stroke: 1px #000;
 }
 
 .skills-subtitle--first {
   margin-top: 0.75rem;
+}
+
+/* Tighten the gap between the CV/Download and the contact footer */
+#skills {
+  padding-bottom: 0;
+}
+
+/* CV preview */
+.cv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.cv__frame {
+  display: block;
+  width: min(96%, 680px);
+  border: 12px solid transparent;
+  border-image: url("../images/red-border.png") 40 / 12px stretch;
+  line-height: 0;
+}
+
+.cv__frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cv__link {
+  background: var(--dark-blue);
+  color: var(--yellow);
+  padding: 0.5rem 1.6rem;
+  border-radius: 999px;
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  text-decoration: none;
 }
 
 .skills li {
