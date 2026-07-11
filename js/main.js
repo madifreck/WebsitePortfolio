@@ -142,9 +142,44 @@ document.addEventListener("click", function (e) {
     return i === -1 ? null : cards[i + step] || null;
   }
 
+  // A silent, looping, autoplaying clip — behaves like an animated GIF.
+  function gifCell(src, alt) {
+    return (
+      '<span class="breakdown__gif">' +
+      '<video src="' + src + '" autoplay loop muted playsinline preload="metadata" aria-label="' + alt + '"></video>' +
+      "</span>"
+    );
+  }
+
   // Per-project breakdown content. Projects not listed here fall back to a
   // default template built from the card's data-title / data-role.
   var PROJECTS = {
+    mrmittens: {
+      title: "Mr Mittens",
+      meta1: "Solo Project",
+      meta2: "ToonBoom Harmony",
+      webm: "videos/Final%20Artefact.webm",
+      role: "Character Art | Rigging Artist",
+      note: null,
+      sections: [
+        {
+          heading: "Character Turnaround",
+          html:
+            '<span class="breakdown__frame breakdown__frame--wide">' +
+            '<img src="images/cat%20turnround.png" alt="Character turnaround"></span>',
+        },
+        {
+          heading: "Rigged animations",
+          html:
+            '<div class="breakdown__gifs">' +
+            gifCell("videos/360%20updated.mp4", "360 turnaround") +
+            gifCell("videos/annoyed%20waiting.mp4", "Annoyed waiting") +
+            gifCell("videos/rigged%20animation%20-%20shoulder%20shrug.mp4", "Shoulder shrug") +
+            gifCell("videos/jump.mp4", "Jump") +
+            "</div>",
+        },
+      ],
+    },
     bookwyrm: {
       title: "A Bookwyrm’s Treasure",
       meta1: "Team Project",
@@ -215,14 +250,14 @@ document.addEventListener("click", function (e) {
     html += '<h2 class="breakdown__title" id="breakdown-title">' + cfg.title + "</h2>";
     html += '<p class="breakdown__meta breakdown__meta--blue">' + cfg.meta1 + "</p>";
     html += '<p class="breakdown__meta">' + cfg.meta2 + "</p>";
-    if (cfg.video) {
+    if (cfg.video || cfg.webm) {
       html +=
         '<div class="breakdown__videoframe">' +
         '<video controls playsinline preload="metadata"' +
         (cfg.poster ? ' poster="' + cfg.poster + '"' : "") +
         ">" +
         (cfg.webm ? '<source src="' + cfg.webm + '" type="video/webm">' : "") +
-        '<source src="' + cfg.video + '" type="video/mp4">' +
+        (cfg.video ? '<source src="' + cfg.video + '" type="video/mp4">' : "") +
         "</video></div>";
     } else {
       html += '<div class="breakdown__media breakdown__media--blue"><span>Animation</span></div>';
@@ -282,35 +317,70 @@ document.addEventListener("click", function (e) {
 })();
 
 // ---- 5. Lightbox: click a breakdown photo to enlarge it ----
+// Once open you can step through every photo in the same row with the on-screen
+// arrows or the left/right keyboard keys.
 (function () {
   var box = document.createElement("div");
   box.className = "lightbox";
   box.hidden = true;
-  box.innerHTML = '<img alt="Enlarged view">';
+  box.innerHTML =
+    '<button class="lightbox__nav lightbox__prev" type="button" aria-label="Previous photo">&#10094;</button>' +
+    '<img alt="Enlarged view">' +
+    '<button class="lightbox__nav lightbox__next" type="button" aria-label="Next photo">&#10095;</button>';
   document.body.appendChild(box);
   var big = box.querySelector("img");
+  var prevBtn = box.querySelector(".lightbox__prev");
+  var nextBtn = box.querySelector(".lightbox__next");
 
-  function openLightbox(src) {
-    big.src = src;
+  var group = []; // the sibling photos we can page through
+  var index = 0;
+
+  function render() {
+    big.src = group[index];
+    var many = group.length > 1;
+    prevBtn.hidden = !many;
+    nextBtn.hidden = !many;
+  }
+
+  function openLightbox(img) {
+    // Collect every framed photo that lives in the same container as the one
+    // clicked, so the arrows walk through that set (e.g. the puppet shots).
+    var scope = img.closest(".breakdown__row") || img.closest(".breakdown__body") || document;
+    var imgs = Array.prototype.slice.call(scope.querySelectorAll(".breakdown__frame img"));
+    group = imgs.map(function (el) { return el.getAttribute("src"); });
+    index = imgs.indexOf(img);
+    if (index === -1) index = 0;
+    render();
     box.hidden = false;
   }
   function closeLightbox() {
     box.hidden = true;
     big.removeAttribute("src");
+    group = [];
+  }
+  function step(dir) {
+    if (group.length < 2) return;
+    index = (index + dir + group.length) % group.length;
+    render();
   }
 
   document.addEventListener("click", function (e) {
     var img = e.target.closest && e.target.closest(".breakdown__frame img");
     if (img) {
-      openLightbox(img.getAttribute("src"));
+      openLightbox(img);
       return;
     }
-    if (!box.hidden && e.target.closest && e.target.closest(".lightbox")) {
-      closeLightbox();
-    }
+    if (box.hidden || !e.target.closest) return;
+    if (e.target.closest(".lightbox__prev")) { step(-1); return; }
+    if (e.target.closest(".lightbox__next")) { step(1); return; }
+    // A click on the backdrop (not the photo or an arrow) closes the lightbox.
+    if (e.target === box) closeLightbox();
   });
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !box.hidden) closeLightbox();
+    if (box.hidden) return;
+    if (e.key === "Escape") closeLightbox();
+    else if (e.key === "ArrowLeft") step(-1);
+    else if (e.key === "ArrowRight") step(1);
   });
 })();
