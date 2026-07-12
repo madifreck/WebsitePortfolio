@@ -180,6 +180,24 @@ document.addEventListener("click", function (e) {
         },
       ],
     },
+    atla: {
+      title: "ATLA - intro",
+      meta1: "Team Project",
+      meta2: "June 2026 | ToonBoom | Adobe Suite",
+      webm: "videos/ATLA-intro_ChitChat.webm",
+      role: "Producer | Concept Art | Background Art | Animator | Editor",
+      note: null,
+      sections: [
+        {
+          heading: "My role",
+          html:
+            '<div class="breakdown__videoframe">' +
+            '<video controls playsinline preload="metadata">' +
+            '<source src="videos/Making%20Of%20Showreel_ATLA.webm" type="video/webm">' +
+            "</video></div>",
+        },
+      ],
+    },
     bookwyrm: {
       title: "A Bookwyrm’s Treasure",
       meta1: "Team Project",
