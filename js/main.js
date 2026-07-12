@@ -142,13 +142,74 @@ document.addEventListener("click", function (e) {
     return i === -1 ? null : cards[i + step] || null;
   }
 
-  // A silent, looping, autoplaying clip — behaves like an animated GIF.
-  function gifCell(src, alt) {
+  // A framed concept-art image with a caption underneath. `fit` shrink-wraps
+  // the frame to the image and centres it in its grid cell.
+  function conceptFigure(n, caption, fit) {
     return (
-      '<span class="breakdown__gif">' +
-      '<video src="' + src + '" autoplay loop muted playsinline preload="metadata" aria-label="' + alt + '"></video>' +
+      '<figure class="breakdown__figure' + (fit ? " breakdown__figure--fit" : "") + '">' +
+      '<span class="breakdown__frame"><img src="images/concept%20art%20' + n + '.avif" alt="Concept art ' + n + '"></span>' +
+      '<figcaption class="breakdown__caption">' + caption + "</figcaption>" +
+      "</figure>"
+    );
+  }
+
+  // A plain red-framed image (used in grids/rows the lightbox can page through).
+  function frameCell(file, alt, cls) {
+    return (
+      '<span class="breakdown__frame' + (cls ? " " + cls : "") + '"><img src="images/' +
+      encodeURI(file) + '" alt="' + (alt || "") + '"></span>'
+    );
+  }
+
+  // A framed image with a caption underneath. opts.frameClass tweaks the frame
+  // (e.g. matched size); opts.figClass tweaks the grid cell (e.g. full width).
+  function photoFigure(file, caption, opts) {
+    opts = opts || {};
+    return (
+      '<figure class="breakdown__figure' + (opts.figClass ? " " + opts.figClass : "") + '">' +
+      '<span class="breakdown__frame' + (opts.frameClass ? " " + opts.frameClass : "") + '">' +
+      '<img src="images/' + encodeURI(file) + '" alt="' + caption + '"></span>' +
+      '<figcaption class="breakdown__caption">' + caption + "</figcaption>" +
+      "</figure>"
+    );
+  }
+
+  // A silent, autoplaying clip — behaves like an animated GIF.
+  // rate (e.g. 0.75) plays it slower; loopPause (ms) holds on the last frame
+  // for a beat before restarting instead of looping seamlessly.
+  function gifCell(src, alt, rate, loopPause, cls) {
+    return (
+      '<span class="breakdown__gif' + (cls ? " " + cls : "") + '">' +
+      '<video src="' + src + '" autoplay muted playsinline preload="metadata" aria-label="' + alt + '"' +
+      (loopPause ? ' data-loop-pause="' + loopPause + '"' : " loop") +
+      (rate ? ' data-rate="' + rate + '"' : "") +
+      "></video>" +
       "</span>"
     );
+  }
+
+  // Honour data-rate (playback speed) and data-loop-pause (hold before restart).
+  function setupGifs(container) {
+    var vids = Array.prototype.slice.call(
+      container.querySelectorAll("video[data-rate], video[data-loop-pause]")
+    );
+    vids.forEach(function (v) {
+      var r = parseFloat(v.getAttribute("data-rate"));
+      if (r) {
+        var set = function () { v.playbackRate = r; };
+        set();
+        v.addEventListener("loadedmetadata", set); // browsers reset rate on load
+      }
+      var pause = parseInt(v.getAttribute("data-loop-pause"), 10);
+      if (pause) {
+        v.addEventListener("ended", function () {
+          setTimeout(function () {
+            v.currentTime = 0;
+            v.play().catch(function () {});
+          }, pause);
+        });
+      }
+    });
   }
 
   // Per-project breakdown content. Projects not listed here fall back to a
@@ -159,7 +220,7 @@ document.addEventListener("click", function (e) {
       meta1: "Solo Project",
       meta2: "ToonBoom Harmony",
       webm: "videos/Final%20Artefact.webm",
-      role: "Character Art | Rigging Artist",
+      role: "Character Artist | Rigging Artist | Animator",
       note: null,
       sections: [
         {
@@ -170,6 +231,7 @@ document.addEventListener("click", function (e) {
         },
         {
           heading: "Rigged animations",
+          red: true,
           html:
             '<div class="breakdown__gifs">' +
             gifCell("videos/360%20updated.mp4", "360 turnaround") +
@@ -185,16 +247,66 @@ document.addEventListener("click", function (e) {
       meta1: "Team Project",
       meta2: "June 2026 | ToonBoom | Adobe Suite",
       webm: "videos/ATLA-intro_ChitChat.webm",
-      role: "Producer | Concept Art | Background Art | Animator | Editor",
+      role: "Producer | Concept Artist | Background Artist | Animator | Editor",
       note: null,
       sections: [
         {
           heading: "My role",
           html:
-            '<div class="breakdown__videoframe">' +
+            '<div class="breakdown__videoframe breakdown__videoframe--red">' +
             '<video controls playsinline preload="metadata">' +
-            '<source src="videos/Making%20Of%20Showreel_ATLA.webm" type="video/webm">' +
+            '<source src="videos/Making%20Of%20Showreel_ATLA%202.webm" type="video/webm">' +
             "</video></div>",
+        },
+      ],
+    },
+    pointblank: {
+      title: "Point Blank",
+      meta1: "Solo Project",
+      meta2: "June 2025 | Adobe Suite",
+      webm: "videos/point%20blank_MadiFreck.webm",
+      role: "Character Artist | Storyboard Artist | Animatic Artist | Editor",
+      synopsis: [
+        { text: "I created an animatic based on the story “Point Blank” by Angus McLovin.", cls: "breakdown__intro" },
+        "Synopsis: Piloting a mini-sub, Heidi is hunted by a relentless shark. A " +
+        "frantic chase drags her into the dark depths, through rock formations and a " +
+        "narrow archway, her sub leaking and oxygen draining. The shark's final lunge " +
+        "backfires when it drives itself onto the sub's jagged, torn hull, gutting it, " +
+        "and Heidi surfaces on her last breath.",
+      ],
+      note: null,
+      sections: [
+        {
+          heading: "Concept Art",
+          html:
+            '<div class="breakdown__grid breakdown__grid--vcenter">' +
+            photoFigure("shark study 1.jpg", "Shark study") +
+            photoFigure("shark study 2.jpg", "Shark study") +
+            photoFigure("shark study 3.jpg", "Shark study") +
+            photoFigure("shark study 4.jpg", "Shark movement study") +
+            photoFigure("character exploration 2.jpg", "Character exploration", { frameClass: "breakdown__frame--match" }) +
+            photoFigure("character exploration.jpg", "Character exploration", { frameClass: "breakdown__frame--match" }) +
+            photoFigure("shark size reference.jpg", "Size reference", { figClass: "breakdown__figure--full" }) +
+            "</div>",
+        },
+      ],
+    },
+    onomatopoeia: {
+      title: "Onomatopoeia",
+      meta1: "Solo Project",
+      meta2: "June 2025 | DragonFrame | Adobe Suite",
+      webm: "videos/intro%20to%20Stop%20Motion.webm",
+      role: "Character Artist | Puppet Maker | Animator | Editor",
+      note: null,
+      sections: [
+        {
+          heading: "Stop-Motion exploration",
+          html:
+            '<div class="breakdown__gifs">' +
+            gifCell("videos/Stop-Motion%20puppet%202.webm", "Stop-motion puppet", null, null, "breakdown__gif--full") +
+            gifCell("videos/Clay%20Worm%202.webm", "Clay worm") +
+            gifCell("videos/Liquid%20Ball%202.webm", "Liquid ball") +
+            "</div>",
         },
       ],
     },
@@ -206,7 +318,7 @@ document.addEventListener("click", function (e) {
       video: "videos/ChitChat_Final.mp4",
       poster: "images/dragon%20preview.png",
 
-      role: "Character Artist | Puppet Maker | Animator | Editor",
+      role: "Character Artist | Puppet Maker | Prop Maker | Animator | Editor",
       synopsis:
         "Synopsis: Miles Nelson, the Bookwyrm, recounts his passion for writing " +
         "and the process of it, whilst also delving into how some of his own " +
@@ -222,9 +334,59 @@ document.addEventListener("click", function (e) {
             '<span class="breakdown__frame"><img src="images/miles%20photo%203.jpg" alt="Puppet photo"></span>' +
             '<span class="breakdown__frame"><img src="images/miles%20photo%202.jpg" alt="Puppet photo"></span>' +
             '<span class="breakdown__frame"><img src="images/miles%20photo%201.jpg" alt="Puppet photo"></span>' +
+            "</div>",
+        },
+        {
+          heading: "My contribution",
+          red: true,
+          html:
+            '<div class="breakdown__videoframe">' +
+            '<video controls playsinline preload="metadata">' +
+            '<source src="videos/my%20contribution.webm" type="video/webm">' +
+            "</video></div>",
+        },
+        {
+          heading: "Concept Art",
+          html:
+            '<div class="breakdown__row">' +
+            frameCell("dragon concept (1).jpg", "Dragon concept 1") +
+            frameCell("dragon concept (2).jpg", "Dragon concept 2") +
+            "</div>",
+        },
+        {
+          heading: "Making of puppet",
+          red: true,
+          html:
+            '<div class="breakdown__row breakdown__row--align breakdown__blueframes">' +
+            frameCell("making of puppet (1).jpg", "Making of puppet 1", "is-portrait") +
+            frameCell("making of puppet (2).jpg", "Making of puppet 2", "is-landscape") +
             "</div>" +
-            '<h3 class="breakdown__section breakdown__section--red">Personal Contributions</h3>' +
-            '<div class="breakdown__media breakdown__media--blue"></div>',
+            '<div class="breakdown__grid breakdown__grid--vcenter breakdown__blueframes">' +
+            frameCell("making of puppet (3).jpg", "Making of puppet 3") +
+            frameCell("making of puppet (4).jpg", "Making of puppet 4") +
+            frameCell("making of puppet (5).jpg", "Making of puppet 5") +
+            frameCell("making of puppet (6).jpg", "Making of puppet 6") +
+            frameCell("making of puppet (7).jpg", "Making of puppet 7") +
+            frameCell("making of puppet (8).jpg", "Making of puppet 8") +
+            "</div>",
+        },
+        {
+          heading: "Props",
+          red: true,
+          html:
+            '<div class="breakdown__row">' +
+            frameCell("props (1).jpg", "Prop 1") +
+            frameCell("props (2).jpg", "Prop 2") +
+            "</div>",
+        },
+        {
+          heading: "Production",
+          red: true,
+          html:
+            '<div class="breakdown__grid breakdown__grid--stack breakdown__blueframes">' +
+            frameCell("production (2).jpg", "Production 2") +
+            frameCell("production (1).jpg", "Production 1", "breakdown__frame--fit-img") +
+            "</div>",
         },
       ],
     },
@@ -233,13 +395,27 @@ document.addEventListener("click", function (e) {
       meta1: "Solo Project",
       meta2: "Jan 2026 | ToonBoom | Adobe Suite",
       webm: "videos/My%20Cat%20Hates%20Me%20webM.webm",
-      video: "videos/my%20cat%20hates%20me.mp4",
-      role: "Character Art | Storyboard Artist | Animator | Editor",
+      role: "Character Artist | Storyboard Artist | Animatic Artist | Animator | Editor",
       note: null,
       sections: [
         {
           heading: "Concept Art",
-          html: '<div class="breakdown__media breakdown__media--red"><span>Concept art</span></div>',
+          html:
+            '<div class="breakdown__grid">' +
+            conceptFigure("1", "Initial character exploration", false) +
+            conceptFigure("2", "Further character exploration", true) +
+            conceptFigure("3", "Background thumbnails", true) +
+            conceptFigure("4", "Character test on ToonBoom", false) +
+            "</div>",
+        },
+        {
+          heading: "Cat study",
+          red: true,
+          html:
+            '<div class="breakdown__gifs">' +
+            gifCell("videos/cat%20walking%20reference%20-%20final.mp4", "Cat walking reference", 0.75, 150) +
+            gifCell("videos/cat%20forward%20reference%20-%20final.mp4", "Cat forward reference", 0.75, 150) +
+            "</div>",
         },
       ],
     },
@@ -281,9 +457,19 @@ document.addEventListener("click", function (e) {
       html += '<div class="breakdown__media breakdown__media--blue"><span>Animation</span></div>';
     }
     html += '<p class="breakdown__role">' + cfg.role + "</p>";
-    if (cfg.synopsis) html += '<p class="breakdown__synopsis">' + cfg.synopsis + "</p>";
+    if (cfg.synopsis) {
+      var paras = Array.isArray(cfg.synopsis) ? cfg.synopsis : [cfg.synopsis];
+      paras.forEach(function (p) {
+        if (typeof p === "string") {
+          html += '<p class="breakdown__synopsis">' + p + "</p>";
+        } else {
+          html += '<p class="' + (p.cls || "breakdown__synopsis") + '">' + p.text + "</p>";
+        }
+      });
+    }
     cfg.sections.forEach(function (sec) {
-      html += '<h3 class="breakdown__section">' + sec.heading + "</h3>";
+      var headingClass = "breakdown__section" + (sec.red ? " breakdown__section--red" : "");
+      html += '<h3 class="' + headingClass + '">' + sec.heading + "</h3>";
       html += sec.html;
     });
     if (cfg.note) html += '<p class="breakdown__note">' + cfg.note + "</p>";
@@ -295,6 +481,7 @@ document.addEventListener("click", function (e) {
     var key = card.getAttribute("data-project");
     var cfg = (key && PROJECTS[key]) ? PROJECTS[key] : defaultConfig(card);
     body.innerHTML = buildBody(cfg);
+    setupGifs(body); // playback speed + loop-pause on any gif clips
     // Show prev/next only when there is a card to go to
     prevBtn.hidden = !adjacentCard(card, -1);
     nextBtn.hidden = !adjacentCard(card, 1);
@@ -342,38 +529,90 @@ document.addEventListener("click", function (e) {
   box.className = "lightbox";
   box.hidden = true;
   box.innerHTML =
-    '<button class="lightbox__nav lightbox__prev" type="button" aria-label="Previous photo">&#10094;</button>' +
+    '<button class="lightbox__nav lightbox__prev" type="button" aria-label="Previous">&#10094;</button>' +
     '<img alt="Enlarged view">' +
-    '<button class="lightbox__nav lightbox__next" type="button" aria-label="Next photo">&#10095;</button>';
+    '<video class="lightbox__video" loop muted playsinline></video>' +
+    '<p class="lightbox__caption" hidden></p>' +
+    '<button class="lightbox__nav lightbox__next" type="button" aria-label="Next">&#10095;</button>';
   document.body.appendChild(box);
-  var big = box.querySelector("img");
+  var bigImg = box.querySelector("img");
+  var bigVid = box.querySelector(".lightbox__video");
+  var capEl = box.querySelector(".lightbox__caption");
   var prevBtn = box.querySelector(".lightbox__prev");
   var nextBtn = box.querySelector(".lightbox__next");
 
-  var group = []; // the sibling photos we can page through
+  var group = []; // the sibling media we can page through: {type, src}
   var index = 0;
 
   function render() {
-    big.src = group[index];
+    var item = group[index];
+    if (item.type === "video") {
+      bigImg.hidden = true;
+      bigImg.removeAttribute("src");
+      bigVid.hidden = false;
+      bigVid.src = item.src;
+      var r = parseFloat(item.rate) || 1;
+      bigVid.playbackRate = r;
+      bigVid.onloadedmetadata = function () { bigVid.playbackRate = r; };
+      var pause = parseInt(item.loopPause, 10) || 0;
+      bigVid.loop = !pause;
+      bigVid.onended = pause
+        ? function () {
+            setTimeout(function () {
+              if (box.hidden) return;
+              bigVid.currentTime = 0;
+              bigVid.play().catch(function () {});
+            }, pause);
+          }
+        : null;
+      bigVid.play().catch(function () {});
+    } else {
+      bigVid.pause();
+      bigVid.hidden = true;
+      bigVid.removeAttribute("src");
+      bigImg.hidden = false;
+      bigImg.src = item.src;
+    }
+    capEl.textContent = item.caption || "";
+    capEl.hidden = !item.caption;
     var many = group.length > 1;
     prevBtn.hidden = !many;
     nextBtn.hidden = !many;
   }
 
-  function openLightbox(img) {
-    // Collect every framed photo that lives in the same container as the one
-    // clicked, so the arrows walk through that set (e.g. the puppet shots).
-    var scope = img.closest(".breakdown__row") || img.closest(".breakdown__body") || document;
-    var imgs = Array.prototype.slice.call(scope.querySelectorAll(".breakdown__frame img"));
-    group = imgs.map(function (el) { return el.getAttribute("src"); });
-    index = imgs.indexOf(img);
+  // Collect every sibling of the clicked media so the arrows walk that set —
+  // puppet photos in a row, or the rigged-animation clips in their grid.
+  function openFrom(el, type) {
+    var scopeSel = type === "video" ? ".breakdown__gifs" : ".breakdown__row, .breakdown__grid";
+    var selector = type === "video" ? ".breakdown__gif video" : ".breakdown__frame img";
+    var scope = el.closest(scopeSel) || el.closest(".breakdown__body") || document;
+    var els = Array.prototype.slice.call(scope.querySelectorAll(selector));
+    group = els.map(function (n) {
+      var caption = "";
+      var fig = n.closest(".breakdown__figure");
+      if (fig) {
+        var c = fig.querySelector(".breakdown__caption");
+        if (c) caption = c.textContent;
+      }
+      return {
+        type: type,
+        src: n.getAttribute("src"),
+        rate: n.getAttribute("data-rate"),
+        loopPause: n.getAttribute("data-loop-pause"),
+        caption: caption,
+      };
+    });
+    index = els.indexOf(el);
     if (index === -1) index = 0;
     render();
     box.hidden = false;
   }
   function closeLightbox() {
     box.hidden = true;
-    big.removeAttribute("src");
+    bigImg.removeAttribute("src");
+    bigVid.pause();
+    bigVid.onended = null; // cancel any pending loop-restart
+    bigVid.removeAttribute("src");
     group = [];
   }
   function step(dir) {
@@ -383,15 +622,21 @@ document.addEventListener("click", function (e) {
   }
 
   document.addEventListener("click", function (e) {
-    var img = e.target.closest && e.target.closest(".breakdown__frame img");
+    if (!e.target.closest) return;
+    var img = e.target.closest(".breakdown__frame img");
     if (img) {
-      openLightbox(img);
+      openFrom(img, "image");
       return;
     }
-    if (box.hidden || !e.target.closest) return;
+    var vid = e.target.closest(".breakdown__gif video");
+    if (vid) {
+      openFrom(vid, "video");
+      return;
+    }
+    if (box.hidden) return;
     if (e.target.closest(".lightbox__prev")) { step(-1); return; }
     if (e.target.closest(".lightbox__next")) { step(1); return; }
-    // A click on the backdrop (not the photo or an arrow) closes the lightbox.
+    // A click on the backdrop (not the media or an arrow) closes the lightbox.
     if (e.target === box) closeLightbox();
   });
 
