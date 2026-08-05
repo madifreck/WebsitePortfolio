@@ -339,6 +339,13 @@ body {
   margin-top: 0.3rem;
 }
 
+/* An odd last card would sit lopsided in the left column — centre it instead */
+#other .projects > .project-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  max-width: calc(50% - clamp(1.25rem, 4vw, 2.5rem) / 2);
+  justify-self: center;
+}
+
 /* ---- Project breakdown overlay ---- */
 .breakdown[hidden] {
   display: none;
@@ -469,6 +476,63 @@ body {
 
 .breakdown__media--red {
   color: var(--dark-red);
+}
+
+/* Subtitle under a section heading (e.g. the year) */
+.breakdown__subheading {
+  color: var(--dark-blue);
+  text-align: center;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  margin: 0.1rem 0 0.2rem;
+}
+
+/* Rows of empty placeholder boxes, waiting for real images */
+.breakdown__phrow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.breakdown__ph {
+  display: block;
+  aspect-ratio: 4 / 3;
+  border: 12px solid transparent;
+  border-image: url("../images/red-border.png") 40 / 12px stretch;
+  background: rgba(255, 255, 255, 0.35);
+  background-clip: padding-box;
+}
+
+.breakdown__phrow--portrait {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.breakdown__phrow--portrait .breakdown__ph {
+  aspect-ratio: 3 / 4;
+}
+
+.breakdown__phrow--landscape {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.breakdown__phrow--landscape .breakdown__ph {
+  aspect-ratio: 3 / 2;
+}
+
+.breakdown__phrow--single {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.breakdown__phrow--single .breakdown__ph {
+  width: min(100%, 420px);
+}
+
+@media (max-width: 620px) {
+  .breakdown__phrow,
+  .breakdown__phrow--portrait {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* Framed animation video (hand-drawn blue border) */
@@ -932,6 +996,59 @@ body {
   margin-top: 0.75rem;
 }
 
+.skills-subtitle--red {
+  color: var(--dark-red);
+}
+
+/* Software sits in one panel above the red skills panels */
+.skills.software {
+  border: 14px solid transparent;
+  border-image: url("../images/blue-border.png") 40 / 14px stretch;
+  padding: 1rem 1rem 1.1rem;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+/* Skills split into pipeline stages, two panels per row */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  max-width: 820px;
+  margin: 0 auto;
+  align-items: stretch; /* panels in a row match height */
+}
+
+.skills-group {
+  border: 14px solid transparent;
+  border-image: url("../images/red-border.png") 40 / 14px stretch;
+  padding: 0.5rem 1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.skills-group__title {
+  color: var(--dark-blue);
+  font-weight: normal;
+  font-size: clamp(1.15rem, 3.5vw, 1.55rem);
+  line-height: 1.1;
+  margin: 0 0 0.85rem;
+  text-align: center;
+}
+
+/* Pills fill the panel and sit tight to the title */
+.skills-group .skills {
+  gap: 0.55rem;
+  margin: 0;
+}
+
+@media (max-width: 560px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Tighten the gap between the CV/Download and the contact footer */
 #skills {
   padding-bottom: 0;
@@ -949,7 +1066,7 @@ body {
   display: block;
   width: min(96%, 680px);
   border: 12px solid transparent;
-  border-image: url("../images/red-border.png") 40 / 12px stretch;
+  border-image: url("../images/blue-border.png") 40 / 12px stretch;
   line-height: 0;
 }
 
@@ -974,6 +1091,22 @@ body {
   padding: 0.5rem 1.1rem;
   border-radius: 999px;
   font-size: clamp(1rem, 3vw, 1.3rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Software logo inside a pill — simplified marks in the site yellow (matching
+   the pill's text), sitting straight on the pill with no backing. The Adobe
+   badges use the pill's red for their letterforms so they read as knocked out.
+   width: auto keeps each mark's own proportions: the ToonBoom wordmark is
+   wide, the others are square. */
+.skills__icon {
+  height: 1.4em;
+  width: auto;
+  max-width: 3.4em;
+  flex: 0 0 auto;
+  margin-left: -0.35rem; /* pull back into the pill's padding a little */
 }
 
 /* ---- Click star pop ---- */

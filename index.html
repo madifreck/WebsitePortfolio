@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Madi Freck — Animation Portfolio</title>
+  <title>Madi Freck - Animation Portfolio</title>
   <link rel="icon" type="image/png" href="images/favicon-circle.png" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -13,6 +13,7 @@
       <li><a href="#home">Home</a></li>
       <li><a href="#twod">2D</a></li>
       <li><a href="#stopmotion">Stop-Motion</a></li>
+      <li><a href="#other">Other</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#about">About</a></li>
     </ul>
@@ -90,38 +91,99 @@
       </div>
     </section>
 
+    <!-- OTHER -->
+    <section id="other" class="page section">
+      <div class="projects">
+        <button class="project-card" data-project="graphicdesign" data-title="Graphic Design">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">Graphic Design</span>
+          </span>
+        </button>
+        <button class="project-card" data-project="crochet" data-title="Crochet">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">Crochet</span>
+          </span>
+        </button>
+        <button class="project-card" data-project="photography" data-title="Photography">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">Photography</span>
+          </span>
+        </button>
+        <button class="project-card" data-project="digitalart" data-title="Digital Art">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">Digital Art</span>
+          </span>
+        </button>
+        <button class="project-card" data-project="traditionalart" data-title="Traditional Art">
+          <span class="project-card__media"></span>
+          <span class="project-card__caption">
+            <span class="project-card__title">Traditional Art</span>
+          </span>
+        </button>
+      </div>
+    </section>
+
     <!-- SKILLS -->
     <section id="skills" class="page section">
-      <h3 class="skills-subtitle skills-subtitle--first">Software</h3>
+      <h3 class="skills-subtitle skills-subtitle--first skills-subtitle--red">Software</h3>
       <ul class="skills software">
-        <li>ToonBoom Harmony</li>
-        <li>DragonFrame</li>
-        <li>Premiere Pro</li>
-        <li>After Effects</li>
-        <li>Photoshop</li>
-        <li>Procreate</li>
-        <li>Office 365</li>
-        <li>Flow</li>
+        <li><img class="skills__icon" src="images/logos/toonboom-yellow.svg" alt="" />ToonBoom Harmony</li>
+        <li><img class="skills__icon" src="images/logos/dragonframe-yellow.svg" alt="" />DragonFrame</li>
+        <li><img class="skills__icon" src="images/logos/adobe-premiere-yellow.svg" alt="" />Premiere Pro</li>
+        <li><img class="skills__icon" src="images/logos/adobe-after-effects-yellow.svg" alt="" />After Effects</li>
+        <li><img class="skills__icon" src="images/logos/adobe-photoshop-yellow.svg" alt="" />Photoshop</li>
+        <li><img class="skills__icon" src="images/logos/procreate-yellow.png" alt="" />Procreate</li>
+        <li><img class="skills__icon" src="images/logos/office365-yellow.png" alt="" />Office 365</li>
+        <li><img class="skills__icon" src="images/logos/flow-yellow.png" alt="" />Flow</li>
       </ul>
 
       <h3 class="skills-subtitle">Skills</h3>
-      <ul class="skills">
-        <li>2D Animation</li>
-        <li>Stop-Motion</li>
-        <li>Storyboarding</li>
-        <li>Animatic Artist</li>
-        <li>Character Design</li>
-        <li>Illustration</li>
-        <li>Editing</li>
-        <li>Graphic Design</li>
-        <li>2D Rigging</li>
-        <li>Motion Graphics</li>
-        <li>Compositing</li>
-        <li>Photography</li>
-        <li>Project Managing</li>
-      </ul>
+      <div class="skills-grid">
+        <div class="skills-group">
+          <h4 class="skills-group__title">Pre-production</h4>
+          <ul class="skills">
+            <li>Storyboarding</li>
+            <li>Animatics</li>
+            <li>Character Design</li>
+            <li>Illustration</li>
+          </ul>
+        </div>
 
-      <h3 class="skills-subtitle">CV</h3>
+        <div class="skills-group">
+          <h4 class="skills-group__title">Production</h4>
+          <ul class="skills">
+            <li>2D Animation</li>
+            <li>Stop-Motion</li>
+            <li>2D Rigging</li>
+            <li>Puppet Making</li>
+          </ul>
+        </div>
+
+        <div class="skills-group">
+          <h4 class="skills-group__title">Post-production</h4>
+          <ul class="skills">
+            <li>Editing</li>
+            <li>Compositing</li>
+            <li>Motion Graphics</li>
+          </ul>
+        </div>
+
+        <div class="skills-group">
+          <h4 class="skills-group__title">Wider Skills</h4>
+          <ul class="skills">
+            <li>Graphic Design</li>
+            <li>Photography</li>
+            <li>Project Management</li>
+            <li>Crochet</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="skills-subtitle skills-subtitle--red">CV</h3>
       <div class="cv">
         <a class="cv__frame" href="MadiFreck_CV.pdf" target="_blank" rel="noopener" aria-label="Open Madi Freck CV (PDF)">
           <img src="images/cv-preview.png" alt="Madi Freck CV preview" />

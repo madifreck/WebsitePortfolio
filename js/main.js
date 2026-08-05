@@ -174,6 +174,18 @@ document.addEventListener("click", function (e) {
     );
   }
 
+  // A row of empty placeholder boxes, waiting for real images to be dropped in.
+  // variant: "" (4:3), "portrait", "landscape" or "single" (one centred box).
+  function phRow(count, variant) {
+    var cells = "";
+    for (var i = 0; i < count; i++) cells += '<span class="breakdown__ph"></span>';
+    return (
+      '<div class="breakdown__phrow' +
+      (variant ? " breakdown__phrow--" + variant : "") +
+      '">' + cells + "</div>"
+    );
+  }
+
   // A silent, autoplaying clip — behaves like an animated GIF.
   // rate (e.g. 0.75) plays it slower; loopPause (ms) holds on the last frame
   // for a beat before restarting instead of looping seamlessly.
@@ -419,6 +431,59 @@ document.addEventListener("click", function (e) {
         },
       ],
     },
+
+    // ---- "Other" category: no animation slot, just titled photo sections ----
+    graphicdesign: {
+      title: "Graphic Design",
+      animation: false,
+      note: null,
+      sections: [
+        { heading: "Dr. Martens", sub: "2024", html: phRow(3) },
+        { heading: "Barnacle and Marmalade", sub: "2024", html: phRow(3) },
+        { heading: "Hello Lincoln", sub: "2024", html: phRow(1, "single") },
+      ],
+    },
+    crochet: {
+      title: "Crochet",
+      animation: false,
+      note: null,
+      sections: [
+        { heading: "Demogorgon", html: phRow(3) },
+        { heading: "Mayday Spider-verse", html: phRow(1, "single") },
+        { heading: "Animals", html: phRow(3) },
+      ],
+    },
+    photography: {
+      title: "Photography",
+      animation: false,
+      note: null,
+      sections: [
+        { heading: "Film Noir - “Light and Shadow”", sub: "2024", html: phRow(3) },
+        { heading: "Mixed Media", sub: "2024", html: phRow(3) },
+      ],
+    },
+    digitalart: {
+      title: "Digital Art",
+      animation: false,
+      note: null,
+      sections: [
+        { heading: "Commission", html: phRow(4, "portrait") },
+        {
+          heading: "“A Dystopian World of Human Machine Hybrids”",
+          sub: "2025",
+          html: phRow(3),
+        },
+      ],
+    },
+    traditionalart: {
+      title: "Traditional Art",
+      animation: false,
+      note: null,
+      sections: [
+        { heading: "Graphite Drawings", html: phRow(3) },
+        { heading: "Watercolours", html: phRow(2, "landscape") },
+      ],
+    },
   };
 
   function defaultConfig(card) {
@@ -442,8 +507,8 @@ document.addEventListener("click", function (e) {
   function buildBody(cfg) {
     var html = "";
     html += '<h2 class="breakdown__title" id="breakdown-title">' + cfg.title + "</h2>";
-    html += '<p class="breakdown__meta breakdown__meta--blue">' + cfg.meta1 + "</p>";
-    html += '<p class="breakdown__meta">' + cfg.meta2 + "</p>";
+    if (cfg.meta1) html += '<p class="breakdown__meta breakdown__meta--blue">' + cfg.meta1 + "</p>";
+    if (cfg.meta2) html += '<p class="breakdown__meta">' + cfg.meta2 + "</p>";
     if (cfg.video || cfg.webm) {
       html +=
         '<div class="breakdown__videoframe">' +
@@ -453,10 +518,10 @@ document.addEventListener("click", function (e) {
         (cfg.webm ? '<source src="' + cfg.webm + '" type="video/webm">' : "") +
         (cfg.video ? '<source src="' + cfg.video + '" type="video/mp4">' : "") +
         "</video></div>";
-    } else {
+    } else if (cfg.animation !== false) {
       html += '<div class="breakdown__media breakdown__media--blue"><span>Animation</span></div>';
     }
-    html += '<p class="breakdown__role">' + cfg.role + "</p>";
+    if (cfg.role) html += '<p class="breakdown__role">' + cfg.role + "</p>";
     if (cfg.synopsis) {
       var paras = Array.isArray(cfg.synopsis) ? cfg.synopsis : [cfg.synopsis];
       paras.forEach(function (p) {
@@ -470,6 +535,7 @@ document.addEventListener("click", function (e) {
     cfg.sections.forEach(function (sec) {
       var headingClass = "breakdown__section" + (sec.red ? " breakdown__section--red" : "");
       html += '<h3 class="' + headingClass + '">' + sec.heading + "</h3>";
+      if (sec.sub) html += '<p class="breakdown__subheading">' + sec.sub + "</p>";
       html += sec.html;
     });
     if (cfg.note) html += '<p class="breakdown__note">' + cfg.note + "</p>";
