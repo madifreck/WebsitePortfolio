@@ -691,6 +691,7 @@ document.addEventListener("click", function (e) {
   }
 
   function open(card) {
+    var wasClosed = modal.hidden;
     currentCard = card;
     var key = card.getAttribute("data-project");
     var cfg = (key && PROJECTS[key]) ? PROJECTS[key] : defaultConfig(card);
@@ -704,12 +705,51 @@ document.addEventListener("click", function (e) {
     modal.scrollTop = 0;
     body.scrollTop = 0;
     document.body.style.overflow = "hidden"; // stop background scroll
+
+    // Give the breakdown its own history entry so the browser's back button
+    // closes it, exactly like the hand-drawn arrow. Only on the way in from a
+    // card — paging with Previous/Next stays on the same entry.
+    if (wasClosed) {
+      try {
+        history.pushState({ breakdown: true }, "");
+      } catch (err) {
+        // Some browsers block pushState on file:// pages. The panel still
+        // works; the back button just won't close it there.
+      }
+    }
   }
 
-  function close() {
+  // An enlarged photo sitting on top of the breakdown has to go too, otherwise
+  // it would be left floating over the category grid.
+  function closeAnyLightbox() {
+    var lb = document.querySelector(".lightbox");
+    if (!lb || lb.hidden) return;
+    var vid = lb.querySelector("video");
+    if (vid) {
+      vid.pause();
+      vid.onended = null;
+      vid.removeAttribute("src");
+    }
+    var img = lb.querySelector("img");
+    if (img) img.removeAttribute("src");
+    lb.hidden = true;
+  }
+
+  function close(fromHistory) {
+    if (modal.hidden) return;
     modal.hidden = true;
     document.body.style.overflow = "";
+    closeAnyLightbox();
+    // Closing by arrow/Esc rewinds the entry we pushed, so the history stays
+    // in step either way you leave.
+    if (!fromHistory && history.state && history.state.breakdown) {
+      history.back();
+    }
   }
+
+  window.addEventListener("popstate", function () {
+    if (!modal.hidden) close(true);
+  });
 
   document.addEventListener("click", function (e) {
     var card = e.target.closest && e.target.closest(".project-card");
