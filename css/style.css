@@ -1331,6 +1331,11 @@ body {
   text-decoration: none;
 }
 
+/* Red variant, used on the About page */
+.cv__link--red {
+  background: var(--dark-red);
+}
+
 .skills li {
   background: var(--dark-red);
   color: var(--yellow);
