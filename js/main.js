@@ -570,9 +570,30 @@ document.addEventListener("click", function (e) {
       animation: false,
       note: null,
       sections: [
-        { heading: "Demogorgon", html: phRow(3) },
-        { heading: "Mayday Spider-verse", html: phRow(1, "single") },
-        { heading: "Animals", html: phRow(3) },
+        {
+          heading: "Demogorgon",
+          html:
+            '<div class="breakdown__phrow breakdown__phrow--tall breakdown__phrow--centre">' +
+            frameCell("demogorgon full.jpg", "Demogorgon, full") +
+            frameCell("demogogrgon half.jpg", "Demogorgon, half") +
+            "</div>",
+        },
+        {
+          heading: "Mayday Spider-verse",
+          html:
+            '<div class="breakdown__row breakdown__row--fit">' +
+            frameCell("mayday front.jpg", "Mayday, front", "r75") +
+            frameCell("Mayday_Parker.webp", "Mayday Parker reference", "r82") +
+            frameCell("mayday side.jpg", "Mayday, side", "r75") +
+            "</div>",
+        },
+        {
+          heading: "Animals",
+          html:
+            '<div class="breakdown__solo">' +
+            frameCell("monkey.jpg", "Crocheted monkey") +
+            "</div>",
+        },
       ],
     },
     photography: {

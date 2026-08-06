@@ -662,6 +662,12 @@ body {
   aspect-ratio: 3 / 4;
 }
 
+/* Two items keeping the three-across size, centred rather than left-aligned */
+.breakdown__phrow--centre {
+  grid-template-columns: repeat(2, calc((100% - 1.8rem) / 3));
+  justify-content: center;
+}
+
 .breakdown__phrow--portrait {
   grid-template-columns: repeat(4, 1fr);
 }
@@ -911,6 +917,14 @@ body {
 
 .breakdown__row--fit .r71 {
   flex-grow: 71;
+}
+
+.breakdown__row--fit .r75 {
+  flex-grow: 75;
+}
+
+.breakdown__row--fit .r82 {
+  flex-grow: 82;
 }
 
 .breakdown__row--fit .r141 {
