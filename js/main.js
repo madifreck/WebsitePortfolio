@@ -174,6 +174,69 @@ document.addEventListener("click", function (e) {
     );
   }
 
+  // A sliding row of framed images: three are visible, the arrows page through
+  // the rest. `files` is an array of [filename, caption] pairs.
+  function carousel(files, perPage) {
+    perPage = perPage || 3;
+    var items = "";
+    for (var i = 0; i < files.length; i += perPage) {
+      var slots = files
+        .slice(i, i + perPage)
+        .map(function (f) {
+          return '<span class="carousel__slot">' + frameCell(f[0], f[1]) + "</span>";
+        })
+        .join("");
+      // A short final page is centred rather than left-aligned.
+      items += '<div class="carousel__page">' + slots + "</div>";
+    }
+    return (
+      '<div class="carousel">' +
+      '<button class="carousel__btn carousel__prev" type="button" aria-label="Previous">&#10094;</button>' +
+      '<div class="carousel__viewport"><div class="carousel__track">' + items + "</div></div>" +
+      '<button class="carousel__btn carousel__next" type="button" aria-label="Next">&#10095;</button>' +
+      "</div>"
+    );
+  }
+
+  // Wire up the arrows. Step size is measured from the rendered items, so it
+  // stays correct when the layout drops to fewer slots on narrow screens.
+  function setupCarousels(container) {
+    var els = Array.prototype.slice.call(container.querySelectorAll(".carousel"));
+    els.forEach(function (c) {
+      var track = c.querySelector(".carousel__track");
+      var viewport = c.querySelector(".carousel__viewport");
+      var prev = c.querySelector(".carousel__prev");
+      var next = c.querySelector(".carousel__next");
+      // The track holds one full-width page per click, so paging is just a
+      // multiple of the viewport width — no per-item measuring needed.
+      var pages = Array.prototype.slice.call(track.children);
+      var index = 0;
+      if (!pages.length) return;
+
+      function update() {
+        if (index < 0) index = 0;
+        if (index > pages.length - 1) index = pages.length - 1;
+        var vw = viewport.getBoundingClientRect().width;
+        track.style.transform = "translateX(" + -index * vw + "px)";
+        prev.disabled = index <= 0;
+        next.disabled = index >= pages.length - 1;
+      }
+
+      prev.addEventListener("click", function () {
+        index--;
+        update();
+      });
+      next.addEventListener("click", function () {
+        index++;
+        update();
+      });
+      window.addEventListener("resize", update);
+
+      update();
+      setTimeout(update, 60); // re-measure once layout has settled
+    });
+  }
+
   // A row of empty placeholder boxes, waiting for real images to be dropped in.
   // variant: "" (4:3), "portrait", "landscape" or "single" (one centred box).
   function phRow(count, variant) {
@@ -438,9 +501,68 @@ document.addEventListener("click", function (e) {
       animation: false,
       note: null,
       sections: [
-        { heading: "Dr. Martens", sub: "2024", html: phRow(3) },
-        { heading: "Barnacle and Marmalade", sub: "2024", html: phRow(3) },
-        { heading: "Hello Lincoln", sub: "2024", html: phRow(1, "single") },
+        {
+          heading: "Dr. Martens",
+          sub: "2024",
+          html:
+            '<p class="breakdown__subheading breakdown__subheading--lg breakdown__subheading--red">Logo</p>' +
+            '<div class="breakdown__solo breakdown__blueframes">' +
+            frameCell("dms logo square.png", "Dr. Martens logo") +
+            "</div>" +
+            '<p class="breakdown__subheading breakdown__subheading--lg">Poster</p>' +
+            "<div>" +
+            carousel([
+              ["dms.png", "Dr. Martens"],
+              ["dms 5.png", "Dr. Martens"],
+              ["dms 7.png", "Dr. Martens"],
+              ["dms 8.png", "Dr. Martens"],
+              ["dms 6.png", "Dr. Martens"],
+              ["dms 2.png", "Dr. Martens"],
+              ["dms 3.png", "Dr. Martens"],
+            ]) +
+            "</div>",
+        },
+        {
+          heading: "Barnacle and Marmalade",
+          sub: "2024",
+          red: true,
+          subRed: true,
+          html:
+            '<p class="breakdown__subheading breakdown__subheading--lg">Branding</p>' +
+            '<div class="breakdown__row breakdown__row--fit">' +
+            frameCell("bm logo.png", "Barnacle and Marmalade logo", "r141") +
+            frameCell("bm poster.png", "Barnacle and Marmalade poster", "r71") +
+            "</div>" +
+            '<p class="breakdown__subheading breakdown__subheading--lg breakdown__subheading--red">Characters</p>' +
+            '<div class="breakdown__row breakdown__row--fit breakdown__blueframes">' +
+            frameCell("barnacle zoom.png", "Barnacle", "r71") +
+            frameCell("marmalde zoom.png", "Marmalade", "r141") +
+            frameCell("eliza zoom.png", "Eliza", "r71") +
+            "</div>" +
+            '<div class="breakdown__row breakdown__row--fit breakdown__blueframes">' +
+            frameCell("barnacle ref.png", "Barnacle reference", "r141") +
+            frameCell("eliza ref.png", "Eliza reference", "r141") +
+            "</div>" +
+            '<div class="breakdown__row breakdown__row--level breakdown__blueframes">' +
+            frameCell("marmalade ref.png", "Marmalade reference") +
+            "</div>" +
+            '<p class="breakdown__subheading breakdown__subheading--lg">Merchandise</p>' +
+            '<div class="breakdown__phrow breakdown__phrow--tall">' +
+            frameCell("bm sticker.png", "Barnacle and Marmalade stickers") +
+            '<span class="breakdown__ph"></span>' +
+            '<span class="breakdown__ph"></span>' +
+            "</div>",
+        },
+        {
+          heading: "Hello Lincoln",
+          sub: "2024",
+          red: true,
+          subRed: true,
+          html:
+            '<div class="breakdown__solo breakdown__blueframes">' +
+            frameCell("hello lincon.png", "Hello Lincoln") +
+            "</div>",
+        },
       ],
     },
     crochet: {
@@ -535,7 +657,12 @@ document.addEventListener("click", function (e) {
     cfg.sections.forEach(function (sec) {
       var headingClass = "breakdown__section" + (sec.red ? " breakdown__section--red" : "");
       html += '<h3 class="' + headingClass + '">' + sec.heading + "</h3>";
-      if (sec.sub) html += '<p class="breakdown__subheading">' + sec.sub + "</p>";
+      if (sec.sub) {
+        var subClass =
+          "breakdown__subheading breakdown__year" +
+          (sec.subRed ? " breakdown__subheading--red" : "");
+        html += '<p class="' + subClass + '">' + sec.sub + "</p>";
+      }
       html += sec.html;
     });
     if (cfg.note) html += '<p class="breakdown__note">' + cfg.note + "</p>";
@@ -552,6 +679,7 @@ document.addEventListener("click", function (e) {
     prevBtn.hidden = !adjacentCard(card, -1);
     nextBtn.hidden = !adjacentCard(card, 1);
     modal.hidden = false;
+    setupCarousels(body); // after the panel is visible, so widths measure right
     modal.scrollTop = 0;
     body.scrollTop = 0;
     document.body.style.overflow = "hidden"; // stop background scroll
@@ -649,7 +777,7 @@ document.addEventListener("click", function (e) {
   // Collect every sibling of the clicked media so the arrows walk that set —
   // puppet photos in a row, or the rigged-animation clips in their grid.
   function openFrom(el, type) {
-    var scopeSel = type === "video" ? ".breakdown__gifs" : ".breakdown__row, .breakdown__grid";
+    var scopeSel = type === "video" ? ".breakdown__gifs" : ".breakdown__row, .breakdown__grid, .carousel__track";
     var selector = type === "video" ? ".breakdown__gif video" : ".breakdown__frame img";
     var scope = el.closest(scopeSel) || el.closest(".breakdown__body") || document;
     var els = Array.prototype.slice.call(scope.querySelectorAll(selector));

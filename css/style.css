@@ -243,7 +243,10 @@ body {
 .about-section {
   min-height: calc(100vh - 60px);
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
 }
 
 /* Character + speech bubble image, with the bio overlaid inside the bubble. */
@@ -478,13 +481,156 @@ body {
   color: var(--dark-red);
 }
 
-/* Subtitle under a section heading (e.g. the year) */
+/* Subtitle under a section heading */
 .breakdown__subheading {
   color: var(--dark-blue);
   text-align: center;
   font-size: clamp(1rem, 3vw, 1.3rem);
   margin: 0.1rem 0 0.2rem;
 }
+
+/* The year sits left, lining up under its section heading */
+.breakdown__year {
+  text-align: left;
+}
+
+/* Same weight and size as a section heading (e.g. "Dr. Martens") */
+.breakdown__subheading--lg {
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  line-height: 1.15;
+  margin: 1.5rem 0 0.6rem;
+}
+
+.breakdown__subheading--red {
+  color: var(--dark-red);
+}
+
+/* A single image centred on its own row */
+.breakdown__solo {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
+  margin-bottom: 2.5rem; /* breathing room before the next label */
+}
+
+.breakdown__solo .breakdown__frame {
+  margin-top: 0;
+  width: min(100%, 320px);
+}
+
+
+/* Sliding row of images — three visible, arrows page through the rest */
+/* The arrows hang outside the text column (negative side margins exactly equal
+   to an arrow plus its gap), so the row of images ends up the same width as the
+   placeholder rows below while the arrows never sit on top of a picture. */
+.carousel {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.75rem -2.15rem 0;
+}
+
+.carousel__viewport {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.carousel__track {
+  display: flex;
+  transition: transform 0.35s ease;
+}
+
+/* One page of images per arrow click. A short final page centres its images
+   instead of leaving them stranded on the left.
+
+   The page has an explicit height and each image takes whatever width its own
+   shape needs at that height. That packs them far tighter than fixed thirds,
+   where a portrait only filled about half its slot. The height must be a plain
+   value, never derived from the content — otherwise the images size from the
+   page while the page sizes from the images, and the whole thing blows up. */
+.carousel__page {
+  flex: 0 0 100%;
+  display: flex;
+  gap: 0;
+  align-items: center;
+  justify-content: center;
+  height: 252px; /* a full page of three lands at the placeholder row's width */
+}
+
+/* Exactly three slots are visible. Each slot is a fixed third wide and as tall
+   as a landscape shot filling it, so landscapes span the whole slot while
+   portraits come out narrower — all at the same height. The frame sits inside
+   the slot and shrinks to its image, so the border still hugs the picture. */
+/* Each slot is only as wide as its image needs at the page's height */
+.carousel__page > .carousel__slot {
+  flex: 0 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel__slot .breakdown__frame {
+  margin-top: 0;
+  height: 100%;
+  max-width: none;
+}
+
+.carousel__slot .breakdown__frame img {
+  width: auto;
+  height: 100%;
+  max-width: none;
+}
+
+.carousel__btn {
+  flex: 0 0 auto;
+  border: none;
+  background: var(--dark-blue);
+  color: var(--yellow);
+  width: 1.8rem;
+  height: 1.8rem;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: inherit;
+}
+
+.carousel__btn:disabled {
+  opacity: 0.25;
+}
+
+/* Once the window is narrow enough that the row would reach past the page edge,
+   pull the arrows back inside rather than letting them cause sideways scroll. */
+/* The row narrows with the panel, so the height steps down with it — a page of
+   three must never come out wider than the row. */
+@media (max-width: 1000px) {
+  .carousel__page {
+    height: 220px;
+  }
+}
+
+@media (max-width: 700px) {
+  /* Arrows come back inline rather than pushing the page sideways */
+  .carousel {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .carousel__page {
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel__page {
+    height: 100px;
+  }
+}
+
 
 /* Rows of empty placeholder boxes, waiting for real images */
 .breakdown__phrow {
@@ -501,6 +647,19 @@ body {
   border-image: url("../images/red-border.png") 40 / 12px stretch;
   background: rgba(255, 255, 255, 0.35);
   background-clip: padding-box;
+}
+
+/* A real image dropped into a row of placeholders. align-self keeps the box
+   hugging its picture instead of stretching to the grid row's height. */
+.breakdown__phrow .breakdown__frame {
+  margin-top: 0;
+  align-self: start;
+}
+
+/* Keeps three across, but portrait-shaped so upright artwork sits level with
+   the empty boxes beside it */
+.breakdown__phrow--tall .breakdown__ph {
+  aspect-ratio: 3 / 4;
 }
 
 .breakdown__phrow--portrait {
@@ -622,7 +781,8 @@ body {
 }
 
 /* Frames whose red border is swapped for the blue one */
-.breakdown__blueframes .breakdown__frame {
+.breakdown__blueframes .breakdown__frame,
+.breakdown__blueframes .breakdown__ph {
   border-image: url("../images/blue-border.png") 40 / 12px stretch;
 }
 
@@ -728,6 +888,77 @@ body {
   flex: 1 1 0;
   min-width: 0;
   margin-top: 0;
+}
+
+/* A row that fills the full width with every image at the same height. Each
+   frame grows in proportion to its image's aspect ratio, and the flex-basis is
+   the border thickness so the *pictures* (not the boxes) come out level. */
+.breakdown__row--fit {
+  align-items: center;
+}
+
+.breakdown__row--fit .breakdown__frame {
+  flex: 1 1 24px;
+  min-width: 0;
+  max-width: none;
+  height: auto;
+}
+
+.breakdown__row--fit .breakdown__frame img {
+  width: 100%;
+  height: auto;
+}
+
+.breakdown__row--fit .r71 {
+  flex-grow: 71;
+}
+
+.breakdown__row--fit .r141 {
+  flex-grow: 141;
+}
+
+.breakdown__row--fit .r158 {
+  flex-grow: 158;
+}
+
+/* A row where every image is rendered at one shared height, each box only as
+   wide as its own picture — so mixed portrait/landscape shots sit level with
+   each other and the border hugs each one. The height is a plain value, never
+   derived from the images, or the sizing would be circular. */
+.breakdown__row--level {
+  height: 240px;
+  align-items: center;
+  justify-content: center;
+}
+
+.breakdown__row--level .breakdown__frame {
+  flex: 0 0 auto;
+  height: 100%;
+  max-width: none;
+}
+
+.breakdown__row--level .breakdown__frame img {
+  width: auto;
+  height: 100%;
+  max-width: none;
+}
+
+@media (max-width: 1000px) {
+  .breakdown__row--level {
+    height: 200px;
+  }
+}
+
+@media (max-width: 700px) {
+  .breakdown__row--level {
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .breakdown__row--level {
+    height: 110px;
+  }
 }
 
 /* 2x2 grid of framed images with captions (e.g. concept art) */
@@ -944,7 +1175,7 @@ body {
 }
 
 .contact__email {
-  color: var(--dark-red);
+  color: var(--dark-blue);
   font-size: clamp(1.1rem, 3.5vw, 1.5rem);
   text-decoration: none;
 }
@@ -1050,7 +1281,8 @@ body {
 }
 
 /* Tighten the gap between the CV/Download and the contact footer */
-#skills {
+#skills,
+#about {
   padding-bottom: 0;
 }
 
