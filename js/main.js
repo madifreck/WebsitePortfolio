@@ -343,6 +343,20 @@ document.addEventListener("click", function (e) {
             '<source src="videos/Making%20Of%20Showreel_ATLA%202.webm" type="video/webm">' +
             "</video></div>",
         },
+        {
+          heading: "Concept Art",
+          red: true,
+          html: '<div class="breakdown__blueframes">' + phRow(3) + "</div>",
+        },
+        {
+          heading: "Watercolour",
+          html: phRow(3),
+        },
+        {
+          heading: "Test Animations",
+          red: true,
+          html: '<div class="breakdown__blueframes">' + phRow(3) + "</div>",
+        },
       ],
     },
     pointblank: {
@@ -600,8 +614,9 @@ document.addEventListener("click", function (e) {
         {
           heading: "Animals",
           html:
-            '<div class="breakdown__solo">' +
-            frameCell("monkey.jpg", "Crocheted monkey") +
+            '<div class="breakdown__row breakdown__row--fit">' +
+            frameCell("monkey.jpg", "Crocheted monkey", "r75") +
+            frameCell("turtle zoom.jpg", "Crocheted turtle", "r133") +
             "</div>",
         },
       ],
@@ -684,8 +699,28 @@ document.addEventListener("click", function (e) {
       animation: false,
       note: null,
       sections: [
-        { heading: "Graphite Drawings", html: phRow(3) },
-        { heading: "Watercolours", html: phRow(2, "landscape") },
+        {
+          heading: "Graphite Drawings",
+          html:
+            "<div data-lightbox-group>" +
+            '<div class="breakdown__row breakdown__row--level">' +
+            frameCell("sketchbook.jpg", "Sketchbook") +
+            frameCell("moose.JPEG", "Moose") +
+            frameCell("skull.jpg", "Skull") +
+            "</div>" +
+            '<div class="breakdown__row breakdown__row--level breakdown__row--level-lg">' +
+            frameCell("scream.JPEG", "Scream") +
+            frameCell("bird.JPEG", "Bird") +
+            "</div>" +
+            "</div>",
+        },
+        {
+          heading: "Watercolours",
+          html:
+            '<div class="breakdown__row">' +
+            frameCell("watercolour.jpg", "Watercolour") +
+            "</div>",
+        },
       ],
     },
   };
@@ -901,7 +936,13 @@ document.addEventListener("click", function (e) {
   function openFrom(el, type) {
     var scopeSel = type === "video" ? ".breakdown__gifs" : ".breakdown__row, .breakdown__grid, .carousel__track";
     var selector = type === "video" ? ".breakdown__gif video" : ".breakdown__frame img";
-    var scope = el.closest(scopeSel) || el.closest(".breakdown__body") || document;
+    // An explicit group wins over the individual row, so a set split across
+    // two rows still pages through as one sequence.
+    var scope =
+      el.closest("[data-lightbox-group]") ||
+      el.closest(scopeSel) ||
+      el.closest(".breakdown__body") ||
+      document;
     var els = Array.prototype.slice.call(scope.querySelectorAll(selector));
     group = els.map(function (n) {
       var caption = "";

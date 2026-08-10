@@ -942,6 +942,10 @@ body {
   flex-grow: 82;
 }
 
+.breakdown__row--fit .r133 {
+  flex-grow: 133;
+}
+
 .breakdown__row--fit .r141 {
   flex-grow: 141;
 }
@@ -972,21 +976,54 @@ body {
   max-width: none;
 }
 
+/* A taller variant, for rows with only a couple of images to fill the width */
+.breakdown__row--level-lg {
+  height: 360px;
+}
+
+/* In between — pairs with a wider row to fill */
+.breakdown__row--level-md {
+  height: 275px;
+}
+
+/* Lets a row use the panel's side padding, for a bit more room */
+.breakdown__row--wide {
+  margin-left: -3rem;
+  margin-right: -3rem;
+}
+
 @media (max-width: 1000px) {
-  .breakdown__row--level {
+  /* the panel loses its side padding here, so the wide row goes back inline */
+  .breakdown__row--wide {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .breakdown__row--level,
+  .breakdown__row--level-md {
     height: 200px;
+  }
+  .breakdown__row--level-lg {
+    height: 300px;
   }
 }
 
 @media (max-width: 700px) {
-  .breakdown__row--level {
+  .breakdown__row--level,
+  .breakdown__row--level-md {
     height: 150px;
+  }
+  .breakdown__row--level-lg {
+    height: 210px;
   }
 }
 
 @media (max-width: 480px) {
-  .breakdown__row--level {
+  .breakdown__row--level,
+  .breakdown__row--level-md {
     height: 110px;
+  }
+  .breakdown__row--level-lg {
+    height: 150px;
   }
 }
 
