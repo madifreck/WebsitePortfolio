@@ -558,6 +558,12 @@ body {
   height: 252px; /* a full page of three lands at the placeholder row's width */
 }
 
+/* Taller pages, sized so upright shots come out the same size they were in a
+   plain three-across row. */
+.carousel--tall .carousel__page {
+  height: 316px;
+}
+
 /* Exactly three slots are visible. Each slot is a fixed third wide and as tall
    as a landscape shot filling it, so landscapes span the whole slot while
    portraits come out narrower — all at the same height. The frame sits inside
@@ -612,6 +618,9 @@ body {
   .carousel__page {
     height: 220px;
   }
+  .carousel--tall .carousel__page {
+    height: 276px;
+  }
 }
 
 @media (max-width: 700px) {
@@ -623,11 +632,17 @@ body {
   .carousel__page {
     height: 150px;
   }
+  .carousel--tall .carousel__page {
+    height: 188px;
+  }
 }
 
 @media (max-width: 480px) {
   .carousel__page {
     height: 100px;
+  }
+  .carousel--tall .carousel__page {
+    height: 125px;
   }
 }
 

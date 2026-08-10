@@ -178,19 +178,29 @@ document.addEventListener("click", function (e) {
   // the rest. `files` is an array of [filename, caption] pairs.
   function carousel(files, perPage) {
     perPage = perPage || 3;
-    var items = "";
+    var pages = [];
     for (var i = 0; i < files.length; i += perPage) {
-      var slots = files
-        .slice(i, i + perPage)
-        .map(function (f) {
-          return '<span class="carousel__slot">' + frameCell(f[0], f[1]) + "</span>";
-        })
-        .join("");
-      // A short final page is centred rather than left-aligned.
-      items += '<div class="carousel__page">' + slots + "</div>";
+      pages.push(files.slice(i, i + perPage));
     }
+    return carouselPages(pages);
+  }
+
+  // Same carousel, but you say exactly which images go on each page — for when
+  // the pages aren't all the same length.
+  function carouselPages(pages, cls) {
+    var items = pages
+      .map(function (page) {
+        var slots = page
+          .map(function (f) {
+            return '<span class="carousel__slot">' + frameCell(f[0], f[1]) + "</span>";
+          })
+          .join("");
+        // A short page is centred rather than left-aligned.
+        return '<div class="carousel__page">' + slots + "</div>";
+      })
+      .join("");
     return (
-      '<div class="carousel">' +
+      '<div class="carousel' + (cls ? " " + cls : "") + '">' +
       '<button class="carousel__btn carousel__prev" type="button" aria-label="Previous">&#10094;</button>' +
       '<div class="carousel__viewport"><div class="carousel__track">' + items + "</div></div>" +
       '<button class="carousel__btn carousel__next" type="button" aria-label="Next">&#10095;</button>' +
@@ -601,8 +611,44 @@ document.addEventListener("click", function (e) {
       animation: false,
       note: null,
       sections: [
-        { heading: "Film Noir - “Light and Shadow”", sub: "2024", html: phRow(3) },
-        { heading: "Mixed Media", sub: "2024", html: phRow(3) },
+        {
+          heading: "Film Noir - “Light and Shadow”",
+          sub: "2024",
+          html:
+            '<p class="breakdown__subheading breakdown__subheading--lg breakdown__subheading--red">Case Study</p>' +
+            '<div class="breakdown__blueframes">' +
+            carouselPages([
+              [
+                ["ld smoke.png", "Smoke"],
+                ["ld lantern.png", "Lantern"],
+              ],
+              [
+                ["ld shadows 1.png", "Shadows"],
+                ["ld shadows 2.png", "Shadows"],
+                ["ld shadows 3.png", "Shadows"],
+              ],
+            ], "carousel--tall") +
+            "</div>" +
+            '<p class="breakdown__subheading breakdown__subheading--lg">Poster</p>' +
+            '<div class="breakdown__phrow breakdown__phrow--tall breakdown__phrow--centre">' +
+            frameCell("ld poter.png", "Poster") +
+            frameCell("ld poster.png", "Poster") +
+            "</div>",
+        },
+        {
+          heading: "Mixed Media",
+          sub: "2024",
+          html:
+            '<div class="breakdown__row">' +
+            frameCell("winter version.PNG", "Winter version") +
+            frameCell("autumn version.PNG", "Autumn version") +
+            "</div>" +
+            '<div class="breakdown__row breakdown__row--fit">' +
+            frameCell("multi.png", "Multi", "r71") +
+            frameCell("duo.PNG", "Duo", "r141") +
+            frameCell("green solo.png", "Green solo", "r71") +
+            "</div>",
+        },
       ],
     },
     digitalart: {
@@ -610,11 +656,26 @@ document.addEventListener("click", function (e) {
       animation: false,
       note: null,
       sections: [
-        { heading: "Commission", html: phRow(4, "portrait") },
+        {
+          heading: "Commission",
+          html:
+            '<div class="breakdown__phrow breakdown__phrow--tall breakdown__phrow--centre">' +
+            frameCell("bridget comission.png", "Bridget commission") +
+            frameCell("bridget comission v2.png", "Bridget commission, v2") +
+            "</div>",
+        },
         {
           heading: "“A Dystopian World of Human Machine Hybrids”",
           sub: "2025",
-          html: phRow(3),
+          html:
+            '<div class="breakdown__row">' +
+            frameCell("dystopian concept.png", "Dystopian concept") +
+            frameCell("dystopian concept 2.png", "Dystopian concept 2") +
+            "</div>" +
+            '<div class="breakdown__row">' +
+            frameCell("dystopian ref.png", "Dystopian reference") +
+            frameCell("dystopian prop.png", "Dystopian prop") +
+            "</div>",
         },
       ],
     },
