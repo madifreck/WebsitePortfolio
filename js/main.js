@@ -114,7 +114,9 @@ document.addEventListener("click", function (e) {
   }
 
   function fromHash() {
-    show((location.hash || "#home").slice(1));
+    // "#twod" shows a page; "#twod/atla" also opens that project's breakdown,
+    // which is what makes a card openable in its own tab.
+    show((location.hash || "#home").slice(1).split("/")[0]);
   }
 
   window.addEventListener("hashchange", fromHash);
@@ -346,7 +348,20 @@ document.addEventListener("click", function (e) {
         {
           heading: "Concept Art",
           red: true,
-          html: '<div class="breakdown__blueframes">' + phRow(3) + "</div>",
+          html:
+            '<div class="breakdown__blueframes" data-lightbox-group>' +
+            '<div class="breakdown__row">' +
+            frameCell("katara concept.PNG", "Katara concept") +
+            frameCell("toph concept.PNG", "Toph concept") +
+            "</div>" +
+            '<div class="breakdown__row">' +
+            frameCell("scroll concept.PNG", "Scroll concept") +
+            frameCell("scroll concept 2.PNG", "Scroll concept 2") +
+            "</div>" +
+            '<div class="breakdown__phrow breakdown__phrow--centre-one">' +
+            frameCell("earth concept.PNG", "Earth concept", "breakdown__frame--white") +
+            "</div>" +
+            "</div>",
         },
         {
           heading: "Watercolour",
@@ -787,7 +802,6 @@ document.addEventListener("click", function (e) {
   }
 
   function open(card) {
-    var wasClosed = modal.hidden;
     currentCard = card;
     var key = card.getAttribute("data-project");
     var cfg = (key && PROJECTS[key]) ? PROJECTS[key] : defaultConfig(card);
@@ -801,17 +815,24 @@ document.addEventListener("click", function (e) {
     modal.scrollTop = 0;
     body.scrollTop = 0;
     document.body.style.overflow = "hidden"; // stop background scroll
+  }
 
-    // Give the breakdown its own history entry so the browser's back button
-    // closes it, exactly like the hand-drawn arrow. Only on the way in from a
-    // card — paging with Previous/Next stays on the same entry.
-    if (wasClosed) {
-      try {
-        history.pushState({ breakdown: true }, "");
-      } catch (err) {
-        // Some browsers block pushState on file:// pages. The panel still
-        // works; the back button just won't close it there.
-      }
+  // Which category page a card belongs to, e.g. "twod".
+  function pageOf(card) {
+    var page = card.closest(".page");
+    return page ? page.id : "home";
+  }
+
+  // replace: paging between projects or closing shouldn't each leave an entry
+  // to step back through. push: opening from a card should, so the browser's
+  // back button returns to the grid.
+  function setHash(hash, push) {
+    try {
+      if (push) history.pushState(null, "", "#" + hash);
+      else history.replaceState(null, "", "#" + hash);
+      return true;
+    } catch (err) {
+      return false; // blocked on some file:// setups
     }
   }
 
@@ -831,40 +852,73 @@ document.addEventListener("click", function (e) {
     lb.hidden = true;
   }
 
-  function close(fromHistory) {
+  function closeNow() {
     if (modal.hidden) return;
     modal.hidden = true;
     document.body.style.overflow = "";
     closeAnyLightbox();
-    // Closing by arrow/Esc rewinds the entry we pushed, so the history stays
-    // in step either way you leave.
-    if (!fromHistory && history.state && history.state.breakdown) {
-      history.back();
-    }
   }
 
-  window.addEventListener("popstate", function () {
-    if (!modal.hidden) close(true);
-  });
+  function close() {
+    if (modal.hidden) return;
+    var page = currentCard ? pageOf(currentCard) : "home";
+    // Drop the project off the address; if that can't be done silently, let the
+    // hash change do it and the router will close the panel for us.
+    if (setHash(page)) closeNow();
+    else location.hash = page;
+  }
+
+  // Keep the panel in step with the address — this is what opens the right
+  // breakdown when a link is opened in a fresh tab, and what makes the
+  // browser's back button close it.
+  function syncFromHash() {
+    var parts = (location.hash || "").slice(1).split("/");
+    var key = parts[1];
+    if (key) {
+      var card = document.querySelector('.project-card[data-project="' + key + '"]');
+      if (card) {
+        open(card);
+        return;
+      }
+    }
+    closeNow();
+  }
+
+  window.addEventListener("hashchange", syncFromHash);
+  syncFromHash(); // a direct link should open its breakdown on load
+
+  // Give every card its own address. They're real links, so the browser
+  // handles middle click, ctrl/cmd click and "open in new tab" natively —
+  // a plain click just changes the hash, which opens the panel below.
+  Array.prototype.slice
+    .call(document.querySelectorAll(".project-card[data-project]"))
+    .forEach(function (card) {
+      card.setAttribute("href", "#" + pageOf(card) + "/" + card.getAttribute("data-project"));
+    });
 
   document.addEventListener("click", function (e) {
-    var card = e.target.closest && e.target.closest(".project-card");
-    if (card) {
-      open(card);
-      return;
-    }
     if (e.target.closest && e.target.closest("[data-close]")) {
       close();
     }
   });
 
+  // Show a card, keeping the address in step so the panel is linkable.
+  function goTo(card, push) {
+    var key = card.getAttribute("data-project");
+    if (key && !setHash(pageOf(card) + "/" + key, push)) {
+      location.hash = pageOf(card) + "/" + key; // fallback; fires hashchange
+      return;
+    }
+    open(card);
+  }
+
   prevBtn.addEventListener("click", function () {
     var p = adjacentCard(currentCard, -1);
-    if (p) open(p);
+    if (p) goTo(p, false);
   });
   nextBtn.addEventListener("click", function () {
     var n = adjacentCard(currentCard, 1);
-    if (n) open(n);
+    if (n) goTo(n, false);
   });
 
   document.addEventListener("keydown", function (e) {

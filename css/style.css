@@ -297,6 +297,7 @@ body {
 .project-card {
   position: relative;
   font: inherit;
+  text-decoration: none; /* they're links now, for middle click / new tab */
   color: var(--dark-red);
   background: transparent;
   border: 16px solid transparent;
@@ -316,7 +317,7 @@ body {
   display: block;
   aspect-ratio: 4 / 3;
   border: 11px solid transparent;
-  border-image: url("../images/blue-border.png") 40 / 11px stretch;
+  border-image: url("../images/red-border.png") 40 / 11px stretch;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -328,7 +329,7 @@ body {
   flex-direction: column;
   margin-top: -0.2rem;
   padding-top: 0.95rem;
-  background: url("../images/red-line.png") top center / 100% 10px no-repeat;
+  background: url("../images/blue-line.png") top center / 100% 10px no-repeat;
 }
 
 .project-card__title {
@@ -683,6 +684,12 @@ body {
   justify-content: center;
 }
 
+/* A lone item at the same width it would have in a pair, centred */
+.breakdown__phrow--centre-one {
+  grid-template-columns: calc((100% - 0.6rem) / 2);
+  justify-content: center;
+}
+
 .breakdown__phrow--portrait {
   grid-template-columns: repeat(4, 1fr);
 }
@@ -799,6 +806,12 @@ body {
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* For artwork with transparency, so the page's yellow doesn't show through */
+.breakdown__frame--white {
+  background: #fff;
+  background-clip: padding-box; /* keep the white inside the drawn border */
 }
 
 /* Frames whose red border is swapped for the blue one */
