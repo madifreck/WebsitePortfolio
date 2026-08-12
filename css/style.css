@@ -924,6 +924,12 @@ body {
   margin-top: 0;
 }
 
+/* A captioned image in a row — the figure is the flex item, not the frame */
+.breakdown__row .breakdown__figure {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
 /* A row that fills the full width with every image at the same height. Each
    frame grows in proportion to its image's aspect ratio, and the flex-basis is
    the border thickness so the *pictures* (not the boxes) come out level. */
@@ -945,6 +951,10 @@ body {
 
 .breakdown__row--fit .r71 {
   flex-grow: 71;
+}
+
+.breakdown__row--fit .r61 {
+  flex-grow: 61;
 }
 
 .breakdown__row--fit .r75 {

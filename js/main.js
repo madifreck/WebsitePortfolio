@@ -586,10 +586,10 @@ document.addEventListener("click", function (e) {
             frameCell("marmalade ref.png", "Marmalade reference") +
             "</div>" +
             '<p class="breakdown__subheading breakdown__subheading--lg">Merchandise</p>' +
-            '<div class="breakdown__phrow breakdown__phrow--tall">' +
-            frameCell("bm sticker.png", "Barnacle and Marmalade stickers") +
-            '<span class="breakdown__ph"></span>' +
-            '<span class="breakdown__ph"></span>' +
+            '<div class="breakdown__row breakdown__row--fit">' +
+            frameCell("bm sticker.png", "Barnacle and Marmalade stickers", "r71") +
+            frameCell("merch.PNG", "Merchandise", "r141") +
+            frameCell("merch 2.PNG", "Merchandise", "r61") +
             "</div>",
         },
         {
@@ -699,12 +699,12 @@ document.addEventListener("click", function (e) {
           sub: "2025",
           html:
             '<div class="breakdown__row">' +
-            frameCell("dystopian concept.png", "Dystopian concept") +
-            frameCell("dystopian concept 2.png", "Dystopian concept 2") +
+            photoFigure("dystopian concept zoom.png", "Concept art") +
+            photoFigure("dystopian concept 2 zoom.png", "Concept art") +
             "</div>" +
             '<div class="breakdown__row">' +
-            frameCell("dystopian ref.png", "Dystopian reference") +
-            frameCell("dystopian prop.png", "Dystopian prop") +
+            photoFigure("dystopian ref.png", "Character reference sheet") +
+            photoFigure("dystopian prop.png", "Prop design") +
             "</div>",
         },
       ],
