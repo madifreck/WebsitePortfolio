@@ -156,10 +156,14 @@ document.addEventListener("click", function (e) {
   }
 
   // A plain red-framed image (used in grids/rows the lightbox can page through).
-  function frameCell(file, alt, cls) {
+  // A caption, if given, isn't shown on the page — it appears when the image is
+  // opened full screen.
+  function frameCell(file, alt, cls, caption) {
     return (
       '<span class="breakdown__frame' + (cls ? " " + cls : "") + '"><img src="images/' +
-      encodeURI(file) + '" alt="' + (alt || "") + '"></span>'
+      encodeURI(file) + '" alt="' + (alt || "") + '"' +
+      (caption ? ' data-caption="' + caption + '"' : "") +
+      "></span>"
     );
   }
 
@@ -275,6 +279,16 @@ document.addEventListener("click", function (e) {
     );
   }
 
+  // A gif clip with a caption shown underneath it.
+  function gifFigure(src, alt, caption, rate, loopPause, cls) {
+    return (
+      '<figure class="breakdown__figure">' +
+      gifCell(src, alt, rate, loopPause, cls) +
+      '<figcaption class="breakdown__caption">' + caption + "</figcaption>" +
+      "</figure>"
+    );
+  }
+
   // Honour data-rate (playback speed) and data-loop-pause (hold before restart).
   function setupGifs(container) {
     var vids = Array.prototype.slice.call(
@@ -350,27 +364,47 @@ document.addEventListener("click", function (e) {
           red: true,
           html:
             '<div class="breakdown__blueframes" data-lightbox-group>' +
+            '<div class="breakdown__row breakdown__row--fit">' +
+            frameCell("soka.jpg", "Sokka concept", "r97") +
+            frameCell("aang.jpg", "Aang concept", "r102") +
+            frameCell("zuko.jpg", "Zuko concept", "r102") +
+            "</div>" +
             '<div class="breakdown__row">' +
             frameCell("katara concept.PNG", "Katara concept") +
             frameCell("toph concept.PNG", "Toph concept") +
             "</div>" +
             '<div class="breakdown__row">' +
-            frameCell("scroll concept.PNG", "Scroll concept") +
+            frameCell("scroll concept centred.PNG", "Scroll concept", "breakdown__frame--white") +
             frameCell("scroll concept 2.PNG", "Scroll concept 2") +
             "</div>" +
+            '<div class="breakdown__row breakdown__row--fit">' +
+            frameCell("earth concept.PNG", "Earth concept", "r141 breakdown__frame--white") +
+            frameCell("fire temple.png", "Fire temple", "r151") +
+            "</div>" +
             '<div class="breakdown__phrow breakdown__phrow--centre-one">' +
-            frameCell("earth concept.PNG", "Earth concept", "breakdown__frame--white") +
+            frameCell("fire nation capital.png", "Fire Nation capital") +
             "</div>" +
             "</div>",
         },
         {
           heading: "Watercolour",
-          html: phRow(3),
+          html:
+            '<div class="breakdown__row">' +
+            frameCell("atla waterclour.png", "ATLA watercolour") +
+            frameCell("earth temple centred.PNG", "Earth temple") +
+            "</div>" +
+            '<div class="breakdown__phrow breakdown__phrow--centre-one">' +
+            frameCell("fire harbour.png", "Fire harbour", "breakdown__frame--white") +
+            "</div>",
         },
         {
-          heading: "Test Animations",
+          heading: "Animation",
           red: true,
-          html: '<div class="breakdown__blueframes">' + phRow(3) + "</div>",
+          html:
+            '<div class="breakdown__gifs">' +
+            gifFigure("videos/Toph_V001.mp4", "Toph, first draft", "First draft") +
+            gifFigure("videos/toph%20updated%20final%20copy.mp4", "Toph, final animation", "Final animation") +
+            "</div>",
         },
       ],
     },
@@ -471,26 +505,27 @@ document.addEventListener("click", function (e) {
           heading: "Making of puppet",
           red: true,
           html:
+            "<div data-lightbox-group>" +
             '<div class="breakdown__row breakdown__row--align breakdown__blueframes">' +
-            frameCell("making of puppet (1).jpg", "Making of puppet 1", "is-portrait") +
-            frameCell("making of puppet (2).jpg", "Making of puppet 2", "is-landscape") +
+            frameCell("making of puppet (1).jpg", "Preparing to create base for puppet", "is-portrait", "Preparing to create base for puppet") +
+            frameCell("making of puppet (2).jpg", "Cut blocks to size", "is-landscape", "Cut blocks to size") +
             "</div>" +
             '<div class="breakdown__grid breakdown__grid--vcenter breakdown__blueframes">' +
-            frameCell("making of puppet (3).jpg", "Making of puppet 3") +
-            frameCell("making of puppet (4).jpg", "Making of puppet 4") +
-            frameCell("making of puppet (5).jpg", "Making of puppet 5") +
-            frameCell("making of puppet (6).jpg", "Making of puppet 6") +
-            frameCell("making of puppet (7).jpg", "Making of puppet 7") +
-            frameCell("making of puppet (8).jpg", "Making of puppet 8") +
+            frameCell("making of puppet (3).jpg", "Cut and pose wire", "", "Cut and pose wire") +
+            frameCell("making of puppet (4).jpg", "Added wings and arms to torso and added padding", "", "Added wings and arms to torso and added padding") +
+            frameCell("making of puppet (5).jpg", "Connected torso to pelvis and added padding", "", "Connected torso to pelvis and added padding") +
+            frameCell("making of puppet (6).jpg", "Connected tail to pelvis and added padding", "", "Connected tail to pelvis and added padding") +
+            frameCell("making of puppet (7).jpg", "Needle felted over the padding and tried on first magnetic mouth", "", "Needle felted over the padding and tried on first magnetic mouth") +
+            frameCell("making of puppet (8).jpg", "Puppet posing with props", "", "Puppet posing with props") +
+            "</div>" +
             "</div>",
         },
         {
           heading: "Props",
-          red: true,
           html:
             '<div class="breakdown__row">' +
-            frameCell("props (1).jpg", "Prop 1") +
-            frameCell("props (2).jpg", "Prop 2") +
+            frameCell("props (1).jpg", "Hand sewn cushion", "", "Hand sewn cushion") +
+            frameCell("props (2).jpg", "Micro-crocheted hanging flowers", "", "Micro-crocheted hanging flowers") +
             "</div>",
         },
         {
@@ -498,8 +533,10 @@ document.addEventListener("click", function (e) {
           red: true,
           html:
             '<div class="breakdown__grid breakdown__grid--stack breakdown__blueframes">' +
-            frameCell("production (2).jpg", "Production 2") +
-            frameCell("production (1).jpg", "Production 1", "breakdown__frame--fit-img") +
+            frameCell("production (2).jpg", "Full set with other puppet", "", "Full set with other puppet") +
+            "</div>" +
+            '<div class="breakdown__gifs">' +
+            gifCell("videos/paper%20animation.mp4", "Paper animation", null, null, "breakdown__gif--full") +
             "</div>",
         },
       ],
@@ -978,6 +1015,7 @@ document.addEventListener("click", function (e) {
       bigImg.hidden = false;
       bigImg.src = item.src;
     }
+    bigImg.classList.toggle("lightbox__img--white", !!item.white);
     capEl.textContent = item.caption || "";
     capEl.hidden = !item.caption;
     var many = group.length > 1;
@@ -999,11 +1037,13 @@ document.addEventListener("click", function (e) {
       document;
     var els = Array.prototype.slice.call(scope.querySelectorAll(selector));
     group = els.map(function (n) {
-      var caption = "";
-      var fig = n.closest(".breakdown__figure");
-      if (fig) {
-        var c = fig.querySelector(".breakdown__caption");
-        if (c) caption = c.textContent;
+      var caption = n.getAttribute("data-caption") || "";
+      if (!caption) {
+        var fig = n.closest(".breakdown__figure");
+        if (fig) {
+          var c = fig.querySelector(".breakdown__caption");
+          if (c) caption = c.textContent;
+        }
       }
       return {
         type: type,
@@ -1011,6 +1051,9 @@ document.addEventListener("click", function (e) {
         rate: n.getAttribute("data-rate"),
         loopPause: n.getAttribute("data-loop-pause"),
         caption: caption,
+        // artwork with transparency needs the same white behind it here as on
+        // the page, or the dark backdrop shows through
+        white: !!n.closest(".breakdown__frame--white"),
       };
     });
     index = els.indexOf(el);

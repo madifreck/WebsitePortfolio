@@ -860,6 +860,11 @@ body {
   display: none;
 }
 
+/* Transparent artwork keeps its white backing when enlarged */
+.lightbox__img--white {
+  background: #fff;
+}
+
 .lightbox__caption {
   max-width: 90%;
   margin: 0;
@@ -965,12 +970,28 @@ body {
   flex-grow: 82;
 }
 
+.breakdown__row--fit .r97 {
+  flex-grow: 97;
+}
+
+.breakdown__row--fit .r102 {
+  flex-grow: 102;
+}
+
 .breakdown__row--fit .r133 {
   flex-grow: 133;
 }
 
 .breakdown__row--fit .r141 {
   flex-grow: 141;
+}
+
+.breakdown__row--fit .r151 {
+  flex-grow: 151;
+}
+
+.breakdown__row--fit .r178 {
+  flex-grow: 178;
 }
 
 .breakdown__row--fit .r158 {
