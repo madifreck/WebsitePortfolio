@@ -1,5 +1,5 @@
 // The two hand-drawn red stars — one is picked at random each time.
-var STAR_SRCS = ["images/star-big.png", "images/star-small.png"];
+var STAR_SRCS = ["images/star-big.webp", "images/star-small.webp"];
 
 function randomStarSrc() {
   return STAR_SRCS[Math.floor(Math.random() * STAR_SRCS.length)];
@@ -149,7 +149,7 @@ document.addEventListener("click", function (e) {
   function conceptFigure(n, caption, fit) {
     return (
       '<figure class="breakdown__figure' + (fit ? " breakdown__figure--fit" : "") + '">' +
-      '<span class="breakdown__frame"><img src="images/concept%20art%20' + n + '.avif" alt="Concept art ' + n + '"></span>' +
+      '<span class="breakdown__frame"><img src="images/concept%20art%20' + n + '.webp" alt="Concept art ' + n + '"></span>' +
       '<figcaption class="breakdown__caption">' + caption + "</figcaption>" +
       "</figure>"
     );
@@ -328,17 +328,17 @@ document.addEventListener("click", function (e) {
           heading: "Character Turnaround",
           html:
             '<span class="breakdown__frame breakdown__frame--wide">' +
-            '<img src="images/cat%20turnround.png" alt="Character turnaround"></span>',
+            '<img src="images/cat%20turnround.webp" alt="Character turnaround"></span>',
         },
         {
           heading: "Rigged animations",
           red: true,
           html:
             '<div class="breakdown__gifs">' +
-            gifCell("videos/360%20updated.mp4", "360 turnaround") +
-            gifCell("videos/annoyed%20waiting.mp4", "Annoyed waiting") +
-            gifCell("videos/rigged%20animation%20-%20shoulder%20shrug.mp4", "Shoulder shrug") +
-            gifCell("videos/jump.mp4", "Jump") +
+            gifCell("videos/360%20updated.webm", "360 turnaround") +
+            gifCell("videos/annoyed%20waiting.webm", "Annoyed waiting") +
+            gifCell("videos/rigged%20animation%20-%20shoulder%20shrug.webm", "Shoulder shrug") +
+            gifCell("videos/jump.webm", "Jump") +
             "</div>",
         },
       ],
@@ -365,24 +365,24 @@ document.addEventListener("click", function (e) {
           html:
             '<div class="breakdown__blueframes" data-lightbox-group>' +
             '<div class="breakdown__row breakdown__row--fit">' +
-            frameCell("soka.jpg", "Sokka concept", "r97") +
-            frameCell("aang.jpg", "Aang concept", "r102") +
-            frameCell("zuko.jpg", "Zuko concept", "r102") +
+            frameCell("soka.webp", "Sokka concept", "r97") +
+            frameCell("aang.webp", "Aang concept", "r102") +
+            frameCell("zuko.webp", "Zuko concept", "r102") +
             "</div>" +
             '<div class="breakdown__row">' +
-            frameCell("katara concept.PNG", "Katara concept") +
-            frameCell("toph concept.PNG", "Toph concept") +
+            frameCell("katara concept.webp", "Katara concept") +
+            frameCell("toph concept.webp", "Toph concept") +
             "</div>" +
             '<div class="breakdown__row">' +
-            frameCell("scroll concept centred.PNG", "Scroll concept", "breakdown__frame--white") +
-            frameCell("scroll concept 2.PNG", "Scroll concept 2") +
+            frameCell("scroll concept centred.webp", "Scroll concept", "breakdown__frame--white") +
+            frameCell("scroll concept 2.webp", "Scroll concept 2") +
             "</div>" +
             '<div class="breakdown__row breakdown__row--fit">' +
-            frameCell("earth concept.PNG", "Earth concept", "r141 breakdown__frame--white") +
-            frameCell("fire temple.png", "Fire temple", "r151") +
+            frameCell("earth concept.webp", "Earth concept", "r141 breakdown__frame--white") +
+            frameCell("fire temple.webp", "Fire temple", "r151") +
             "</div>" +
             '<div class="breakdown__phrow breakdown__phrow--centre-one">' +
-            frameCell("fire nation capital.png", "Fire Nation capital") +
+            frameCell("fire nation capital.webp", "Fire Nation capital") +
             "</div>" +
             "</div>",
         },
@@ -390,11 +390,11 @@ document.addEventListener("click", function (e) {
           heading: "Watercolour",
           html:
             '<div class="breakdown__row">' +
-            frameCell("atla waterclour.png", "ATLA watercolour") +
-            frameCell("earth temple centred.PNG", "Earth temple") +
+            frameCell("atla waterclour.webp", "ATLA watercolour") +
+            frameCell("earth temple centred.webp", "Earth temple") +
             "</div>" +
             '<div class="breakdown__phrow breakdown__phrow--centre-one">' +
-            frameCell("fire harbour.png", "Fire harbour", "breakdown__frame--white") +
+            frameCell("fire harbour.webp", "Fire harbour", "breakdown__frame--white") +
             "</div>",
         },
         {
@@ -402,8 +402,8 @@ document.addEventListener("click", function (e) {
           red: true,
           html:
             '<div class="breakdown__gifs">' +
-            gifFigure("videos/Toph_V001.mp4", "Toph, first draft", "First draft") +
-            gifFigure("videos/toph%20updated%20final%20copy.mp4", "Toph, final animation", "Final animation") +
+            gifFigure("videos/Toph_V001.webm", "Toph, first draft", "First draft") +
+            gifFigure("videos/toph%20updated%20final%20copy.webm", "Toph, final animation", "Final animation") +
             "</div>",
         },
       ],
@@ -428,13 +428,13 @@ document.addEventListener("click", function (e) {
           heading: "Concept Art",
           html:
             '<div class="breakdown__grid breakdown__grid--vcenter">' +
-            photoFigure("shark study 1.jpg", "Shark study") +
-            photoFigure("shark study 2.jpg", "Shark study") +
-            photoFigure("shark study 3.jpg", "Shark study") +
-            photoFigure("shark study 4.jpg", "Shark movement study") +
-            photoFigure("character exploration 2.jpg", "Character exploration", { frameClass: "breakdown__frame--match" }) +
-            photoFigure("character exploration.jpg", "Character exploration", { frameClass: "breakdown__frame--match" }) +
-            photoFigure("shark size reference.jpg", "Size reference", { figClass: "breakdown__figure--full" }) +
+            photoFigure("shark study 1.webp", "Shark study") +
+            photoFigure("shark study 2.webp", "Shark study") +
+            photoFigure("shark study 3.webp", "Shark study") +
+            photoFigure("shark study 4.webp", "Shark movement study") +
+            photoFigure("character exploration 2.webp", "Character exploration", { frameClass: "breakdown__frame--match" }) +
+            photoFigure("character exploration.webp", "Character exploration", { frameClass: "breakdown__frame--match" }) +
+            photoFigure("shark size reference.webp", "Size reference", { figClass: "breakdown__figure--full" }) +
             "</div>",
         },
       ],
@@ -463,8 +463,7 @@ document.addEventListener("click", function (e) {
       meta1: "Team Project",
       meta2: "Jan 2026 | DragonFrame | Adobe Suite",
       webm: "videos/Chitchat%20Final%20webM.webm",
-      video: "videos/ChitChat_Final.mp4",
-      poster: "images/dragon%20preview.png",
+      poster: "images/dragon%20preview.webp",
 
       role: "Character Artist | Puppet Maker | Prop Maker | Animator | Editor",
       synopsis:
@@ -479,9 +478,9 @@ document.addEventListener("click", function (e) {
           heading: "Puppet",
           html:
             '<div class="breakdown__row">' +
-            '<span class="breakdown__frame"><img src="images/miles%20photo%203.jpg" alt="Puppet photo"></span>' +
-            '<span class="breakdown__frame"><img src="images/miles%20photo%202.jpg" alt="Puppet photo"></span>' +
-            '<span class="breakdown__frame"><img src="images/miles%20photo%201.jpg" alt="Puppet photo"></span>' +
+            '<span class="breakdown__frame"><img src="images/miles%20photo%203.webp" alt="Puppet photo"></span>' +
+            '<span class="breakdown__frame"><img src="images/miles%20photo%202.webp" alt="Puppet photo"></span>' +
+            '<span class="breakdown__frame"><img src="images/miles%20photo%201.webp" alt="Puppet photo"></span>' +
             "</div>",
         },
         {
@@ -497,8 +496,8 @@ document.addEventListener("click", function (e) {
           heading: "Concept Art",
           html:
             '<div class="breakdown__row">' +
-            frameCell("dragon concept (1).jpg", "Dragon concept 1") +
-            frameCell("dragon concept (2).jpg", "Dragon concept 2") +
+            frameCell("dragon concept (1).webp", "Dragon concept 1") +
+            frameCell("dragon concept (2).webp", "Dragon concept 2") +
             "</div>",
         },
         {
@@ -507,16 +506,16 @@ document.addEventListener("click", function (e) {
           html:
             "<div data-lightbox-group>" +
             '<div class="breakdown__row breakdown__row--align breakdown__blueframes">' +
-            frameCell("making of puppet (1).jpg", "Preparing to create base for puppet", "is-portrait", "Preparing to create base for puppet") +
-            frameCell("making of puppet (2).jpg", "Cut blocks to size", "is-landscape", "Cut blocks to size") +
+            frameCell("making of puppet (1).webp", "Preparing to create base for puppet", "is-portrait", "Preparing to create base for puppet") +
+            frameCell("making of puppet (2).webp", "Cut blocks to size", "is-landscape", "Cut blocks to size") +
             "</div>" +
             '<div class="breakdown__grid breakdown__grid--vcenter breakdown__blueframes">' +
-            frameCell("making of puppet (3).jpg", "Cut and pose wire", "", "Cut and pose wire") +
-            frameCell("making of puppet (4).jpg", "Added wings and arms to torso and added padding", "", "Added wings and arms to torso and added padding") +
-            frameCell("making of puppet (5).jpg", "Connected torso to pelvis and added padding", "", "Connected torso to pelvis and added padding") +
-            frameCell("making of puppet (6).jpg", "Connected tail to pelvis and added padding", "", "Connected tail to pelvis and added padding") +
-            frameCell("making of puppet (7).jpg", "Needle felted over the padding and tried on first magnetic mouth", "", "Needle felted over the padding and tried on first magnetic mouth") +
-            frameCell("making of puppet (8).jpg", "Puppet posing with props", "", "Puppet posing with props") +
+            frameCell("making of puppet (3).webp", "Cut and pose wire", "", "Cut and pose wire") +
+            frameCell("making of puppet (4).webp", "Added wings and arms to torso and added padding", "", "Added wings and arms to torso and added padding") +
+            frameCell("making of puppet (5).webp", "Connected torso to pelvis and added padding", "", "Connected torso to pelvis and added padding") +
+            frameCell("making of puppet (6).webp", "Connected tail to pelvis and added padding", "", "Connected tail to pelvis and added padding") +
+            frameCell("making of puppet (7).webp", "Needle felted over the padding and tried on first magnetic mouth", "", "Needle felted over the padding and tried on first magnetic mouth") +
+            frameCell("making of puppet (8).webp", "Puppet posing with props", "", "Puppet posing with props") +
             "</div>" +
             "</div>",
         },
@@ -524,8 +523,8 @@ document.addEventListener("click", function (e) {
           heading: "Props",
           html:
             '<div class="breakdown__row">' +
-            frameCell("props (1).jpg", "Hand sewn cushion", "", "Hand sewn cushion") +
-            frameCell("props (2).jpg", "Micro-crocheted hanging flowers", "", "Micro-crocheted hanging flowers") +
+            frameCell("props (1).webp", "Hand sewn cushion", "", "Hand sewn cushion") +
+            frameCell("props (2).webp", "Micro-crocheted hanging flowers", "", "Micro-crocheted hanging flowers") +
             "</div>",
         },
         {
@@ -533,10 +532,10 @@ document.addEventListener("click", function (e) {
           red: true,
           html:
             '<div class="breakdown__grid breakdown__grid--stack breakdown__blueframes">' +
-            frameCell("production (2).jpg", "Full set with other puppet", "", "Full set with other puppet") +
+            frameCell("production (2).webp", "Full set with other puppet", "", "Full set with other puppet") +
             "</div>" +
             '<div class="breakdown__gifs">' +
-            gifCell("videos/paper%20animation.mp4", "Paper animation", null, null, "breakdown__gif--full") +
+            gifCell("videos/paper%20animation.webm", "Paper animation", null, null, "breakdown__gif--full") +
             "</div>",
         },
       ],
@@ -564,8 +563,8 @@ document.addEventListener("click", function (e) {
           red: true,
           html:
             '<div class="breakdown__gifs">' +
-            gifCell("videos/cat%20walking%20reference%20-%20final.mp4", "Cat walking reference", 0.75, 150) +
-            gifCell("videos/cat%20forward%20reference%20-%20final.mp4", "Cat forward reference", 0.75, 150) +
+            gifCell("videos/cat%20walking%20reference%20-%20final.webm", "Cat walking reference", 0.75, 150) +
+            gifCell("videos/cat%20forward%20reference%20-%20final.webm", "Cat forward reference", 0.75, 150) +
             "</div>",
         },
       ],
@@ -583,18 +582,18 @@ document.addEventListener("click", function (e) {
           html:
             '<p class="breakdown__subheading breakdown__subheading--lg breakdown__subheading--red">Logo</p>' +
             '<div class="breakdown__solo breakdown__blueframes">' +
-            frameCell("dms logo square.png", "Dr. Martens logo") +
+            frameCell("dms logo square.webp", "Dr. Martens logo") +
             "</div>" +
             '<p class="breakdown__subheading breakdown__subheading--lg">Poster</p>' +
             "<div>" +
             carousel([
-              ["dms.png", "Dr. Martens"],
-              ["dms 5.png", "Dr. Martens"],
-              ["dms 7.png", "Dr. Martens"],
-              ["dms 8.png", "Dr. Martens"],
-              ["dms 6.png", "Dr. Martens"],
-              ["dms 2.png", "Dr. Martens"],
-              ["dms 3.png", "Dr. Martens"],
+              ["dms.webp", "Dr. Martens"],
+              ["dms 5.webp", "Dr. Martens"],
+              ["dms 7.webp", "Dr. Martens"],
+              ["dms 8.webp", "Dr. Martens"],
+              ["dms 6.webp", "Dr. Martens"],
+              ["dms 2.webp", "Dr. Martens"],
+              ["dms 3.webp", "Dr. Martens"],
             ]) +
             "</div>",
         },
@@ -606,27 +605,27 @@ document.addEventListener("click", function (e) {
           html:
             '<p class="breakdown__subheading breakdown__subheading--lg">Branding</p>' +
             '<div class="breakdown__row breakdown__row--fit">' +
-            frameCell("bm logo.png", "Barnacle and Marmalade logo", "r141") +
-            frameCell("bm poster.png", "Barnacle and Marmalade poster", "r71") +
+            frameCell("bm logo.webp", "Barnacle and Marmalade logo", "r141") +
+            frameCell("bm poster.webp", "Barnacle and Marmalade poster", "r71") +
             "</div>" +
             '<p class="breakdown__subheading breakdown__subheading--lg breakdown__subheading--red">Characters</p>' +
             '<div class="breakdown__row breakdown__row--fit breakdown__blueframes">' +
-            frameCell("barnacle zoom.png", "Barnacle", "r71") +
-            frameCell("marmalde zoom.png", "Marmalade", "r141") +
-            frameCell("eliza zoom.png", "Eliza", "r71") +
+            frameCell("barnacle zoom.webp", "Barnacle", "r71") +
+            frameCell("marmalde zoom.webp", "Marmalade", "r141") +
+            frameCell("eliza zoom.webp", "Eliza", "r71") +
             "</div>" +
             '<div class="breakdown__row breakdown__row--fit breakdown__blueframes">' +
-            frameCell("barnacle ref.png", "Barnacle reference", "r141") +
-            frameCell("eliza ref.png", "Eliza reference", "r141") +
+            frameCell("barnacle ref.webp", "Barnacle reference", "r141") +
+            frameCell("eliza ref.webp", "Eliza reference", "r141") +
             "</div>" +
             '<div class="breakdown__row breakdown__row--level breakdown__blueframes">' +
-            frameCell("marmalade ref.png", "Marmalade reference") +
+            frameCell("marmalade ref.webp", "Marmalade reference") +
             "</div>" +
             '<p class="breakdown__subheading breakdown__subheading--lg">Merchandise</p>' +
             '<div class="breakdown__row breakdown__row--fit">' +
-            frameCell("bm sticker.png", "Barnacle and Marmalade stickers", "r71") +
-            frameCell("merch.PNG", "Merchandise", "r141") +
-            frameCell("merch 2.PNG", "Merchandise", "r61") +
+            frameCell("bm sticker.webp", "Barnacle and Marmalade stickers", "r71") +
+            frameCell("merch.webp", "Merchandise", "r141") +
+            frameCell("merch 2.webp", "Merchandise", "r61") +
             "</div>",
         },
         {
@@ -636,7 +635,7 @@ document.addEventListener("click", function (e) {
           subRed: true,
           html:
             '<div class="breakdown__solo breakdown__blueframes">' +
-            frameCell("hello lincon.png", "Hello Lincoln") +
+            frameCell("hello lincon.webp", "Hello Lincoln") +
             "</div>",
         },
       ],
@@ -650,25 +649,25 @@ document.addEventListener("click", function (e) {
           heading: "Demogorgon",
           html:
             '<div class="breakdown__phrow breakdown__phrow--tall breakdown__phrow--centre">' +
-            frameCell("demogorgon full.jpg", "Demogorgon, full") +
-            frameCell("demogogrgon half.jpg", "Demogorgon, half") +
+            frameCell("demogorgon full.webp", "Demogorgon, full") +
+            frameCell("demogogrgon half.webp", "Demogorgon, half") +
             "</div>",
         },
         {
           heading: "Mayday Spider-verse",
           html:
             '<div class="breakdown__row breakdown__row--fit">' +
-            frameCell("mayday front.jpg", "Mayday, front", "r75") +
+            frameCell("mayday front.webp", "Mayday, front", "r75") +
             frameCell("Mayday_Parker.webp", "Mayday Parker reference", "r82") +
-            frameCell("mayday side.jpg", "Mayday, side", "r75") +
+            frameCell("mayday side.webp", "Mayday, side", "r75") +
             "</div>",
         },
         {
           heading: "Animals",
           html:
             '<div class="breakdown__row breakdown__row--fit">' +
-            frameCell("monkey.jpg", "Crocheted monkey", "r75") +
-            frameCell("turtle zoom.jpg", "Crocheted turtle", "r133") +
+            frameCell("monkey.webp", "Crocheted monkey", "r75") +
+            frameCell("turtle zoom.webp", "Crocheted turtle", "r133") +
             "</div>",
         },
       ],
@@ -686,20 +685,20 @@ document.addEventListener("click", function (e) {
             '<div class="breakdown__blueframes">' +
             carouselPages([
               [
-                ["ld smoke.png", "Smoke"],
-                ["ld lantern.png", "Lantern"],
+                ["ld smoke.webp", "Smoke"],
+                ["ld lantern.webp", "Lantern"],
               ],
               [
-                ["ld shadows 1.png", "Shadows"],
-                ["ld shadows 2.png", "Shadows"],
-                ["ld shadows 3.png", "Shadows"],
+                ["ld shadows 1.webp", "Shadows"],
+                ["ld shadows 2.webp", "Shadows"],
+                ["ld shadows 3.webp", "Shadows"],
               ],
             ], "carousel--tall") +
             "</div>" +
             '<p class="breakdown__subheading breakdown__subheading--lg">Poster</p>' +
             '<div class="breakdown__phrow breakdown__phrow--tall breakdown__phrow--centre">' +
-            frameCell("ld poter.png", "Poster") +
-            frameCell("ld poster.png", "Poster") +
+            frameCell("ld poter.webp", "Poster") +
+            frameCell("ld poster.webp", "Poster") +
             "</div>",
         },
         {
@@ -707,13 +706,13 @@ document.addEventListener("click", function (e) {
           sub: "2024",
           html:
             '<div class="breakdown__row">' +
-            frameCell("winter version.PNG", "Winter version") +
-            frameCell("autumn version.PNG", "Autumn version") +
+            frameCell("winter version.webp", "Winter version") +
+            frameCell("autumn version.webp", "Autumn version") +
             "</div>" +
             '<div class="breakdown__row breakdown__row--fit">' +
-            frameCell("multi.png", "Multi", "r71") +
-            frameCell("duo.PNG", "Duo", "r141") +
-            frameCell("green solo.png", "Green solo", "r71") +
+            frameCell("multi.webp", "Multi", "r71") +
+            frameCell("duo.webp", "Duo", "r141") +
+            frameCell("green solo.webp", "Green solo", "r71") +
             "</div>",
         },
       ],
@@ -727,8 +726,8 @@ document.addEventListener("click", function (e) {
           heading: "Commission",
           html:
             '<div class="breakdown__phrow breakdown__phrow--tall breakdown__phrow--centre">' +
-            frameCell("bridget comission.png", "Bridget commission") +
-            frameCell("bridget comission v2.png", "Bridget commission, v2") +
+            frameCell("bridget comission.webp", "Bridget commission") +
+            frameCell("bridget comission v2.webp", "Bridget commission, v2") +
             "</div>",
         },
         {
@@ -736,12 +735,12 @@ document.addEventListener("click", function (e) {
           sub: "2025",
           html:
             '<div class="breakdown__row">' +
-            photoFigure("dystopian concept zoom.png", "Concept art") +
-            photoFigure("dystopian concept 2 zoom.png", "Concept art") +
+            photoFigure("dystopian concept zoom.webp", "Concept art") +
+            photoFigure("dystopian concept 2 zoom.webp", "Concept art") +
             "</div>" +
             '<div class="breakdown__row">' +
-            photoFigure("dystopian ref.png", "Character reference sheet") +
-            photoFigure("dystopian prop.png", "Prop design") +
+            photoFigure("dystopian ref.webp", "Character reference sheet") +
+            photoFigure("dystopian prop.webp", "Prop design") +
             "</div>",
         },
       ],
@@ -756,13 +755,13 @@ document.addEventListener("click", function (e) {
           html:
             "<div data-lightbox-group>" +
             '<div class="breakdown__row breakdown__row--level">' +
-            frameCell("sketchbook.jpg", "Sketchbook") +
-            frameCell("moose.JPEG", "Moose") +
-            frameCell("skull.jpg", "Skull") +
+            frameCell("sketchbook.webp", "Sketchbook") +
+            frameCell("moose.webp", "Moose") +
+            frameCell("skull.webp", "Skull") +
             "</div>" +
             '<div class="breakdown__row breakdown__row--level breakdown__row--level-lg">' +
-            frameCell("scream.JPEG", "Scream") +
-            frameCell("bird.JPEG", "Bird") +
+            frameCell("scream.webp", "Scream") +
+            frameCell("bird.webp", "Bird") +
             "</div>" +
             "</div>",
         },
@@ -770,7 +769,7 @@ document.addEventListener("click", function (e) {
           heading: "Watercolours",
           html:
             '<div class="breakdown__row">' +
-            frameCell("watercolour.jpg", "Watercolour") +
+            frameCell("watercolour.webp", "Watercolour") +
             "</div>",
         },
       ],
@@ -789,7 +788,7 @@ document.addEventListener("click", function (e) {
           heading: "Character Turnaround",
           html:
             '<span class="breakdown__frame breakdown__frame--wide">' +
-            '<img src="images/cat%20turnround.png" alt="Character turnaround"></span>',
+            '<img src="images/cat%20turnround.webp" alt="Character turnaround"></span>',
         },
       ],
     };

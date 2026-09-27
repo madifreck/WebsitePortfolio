@@ -85,7 +85,7 @@ body {
   font-size: clamp(1.1rem, 3vw, 1.5rem);
   padding: 0.2rem 0.4rem 0.55rem;
   /* hand-drawn blue underline, hidden until hover/active (width 0) */
-  background: url("../images/blue-line.png") center bottom / 0% 7px no-repeat;
+  background: url("../images/blue-line.webp") center bottom / 0% 7px no-repeat;
   transition: background-size 0.15s ease;
 }
 
@@ -227,7 +227,7 @@ body {
   aspect-ratio: 16 / 9;
   margin: 1.25rem auto 0;
   border: 13px solid transparent;
-  border-image: url("../images/blue-border.png") 40 / 13px stretch;
+  border-image: url("../images/blue-border.webp") 40 / 13px stretch;
   background: #000;
   background-clip: padding-box;
 }
@@ -301,7 +301,7 @@ body {
   color: var(--dark-red);
   background: transparent;
   border: 16px solid transparent;
-  border-image: url("../images/red-border.png") 40 / 16px stretch;
+  border-image: url("../images/red-border.webp") 40 / 16px stretch;
   padding: 0.7rem 0.7rem 0.5rem;
   display: flex;
   flex-direction: column;
@@ -317,7 +317,7 @@ body {
   display: block;
   aspect-ratio: 4 / 3;
   border: 11px solid transparent;
-  border-image: url("../images/red-border.png") 40 / 11px stretch;
+  border-image: url("../images/red-border.webp") 40 / 11px stretch;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -329,7 +329,7 @@ body {
   flex-direction: column;
   margin-top: -0.2rem;
   padding-top: 0.95rem;
-  background: url("../images/blue-line.png") top center / 100% 10px no-repeat;
+  background: url("../images/blue-line.webp") top center / 100% 10px no-repeat;
 }
 
 .project-card__title {
@@ -471,11 +471,11 @@ body {
   font-size: clamp(1.3rem, 5vw, 2rem);
   margin-top: 0.75rem;
   border: 13px solid transparent;
-  border-image: url("../images/red-border.png") 40 / 13px stretch;
+  border-image: url("../images/red-border.webp") 40 / 13px stretch;
 }
 
 .breakdown__media--blue {
-  border-image-source: url("../images/blue-border.png");
+  border-image-source: url("../images/blue-border.webp");
 }
 
 .breakdown__media--red {
@@ -660,7 +660,7 @@ body {
   display: block;
   aspect-ratio: 4 / 3;
   border: 12px solid transparent;
-  border-image: url("../images/red-border.png") 40 / 12px stretch;
+  border-image: url("../images/red-border.webp") 40 / 12px stretch;
   background: rgba(255, 255, 255, 0.35);
   background-clip: padding-box;
 }
@@ -726,7 +726,7 @@ body {
 .breakdown__videoframe {
   margin-top: 0.75rem;
   border: 13px solid transparent;
-  border-image: url("../images/blue-border.png") 40 / 13px stretch;
+  border-image: url("../images/blue-border.webp") 40 / 13px stretch;
 }
 
 .breakdown__videoframe video {
@@ -737,7 +737,7 @@ body {
 }
 
 .breakdown__videoframe--red {
-  border-image: url("../images/red-border.png") 40 / 13px stretch;
+  border-image: url("../images/red-border.webp") 40 / 13px stretch;
 }
 
 /* Role breakdown — four red-bordered boxes of bullet points */
@@ -751,7 +751,7 @@ body {
 
 .breakdown__role-box {
   border: 14px solid transparent;
-  border-image: url("../images/red-border.png") 40 / 14px stretch;
+  border-image: url("../images/red-border.webp") 40 / 14px stretch;
   padding: 0.4rem 1.1rem 1rem;
   background: rgba(255, 255, 255, 0.35);
   background-clip: padding-box;
@@ -799,7 +799,7 @@ body {
   display: block;
   margin-top: 0.75rem;
   border: 12px solid transparent;
-  border-image: url("../images/red-border.png") 40 / 12px stretch;
+  border-image: url("../images/red-border.webp") 40 / 12px stretch;
 }
 
 .breakdown__frame img {
@@ -817,7 +817,7 @@ body {
 /* Frames whose red border is swapped for the blue one */
 .breakdown__blueframes .breakdown__frame,
 .breakdown__blueframes .breakdown__ph {
-  border-image: url("../images/blue-border.png") 40 / 12px stretch;
+  border-image: url("../images/blue-border.webp") 40 / 12px stretch;
 }
 
 /* Hint that framed photos are clickable */
@@ -1203,7 +1203,7 @@ body {
 .breakdown__gif {
   display: block;
   border: 12px solid transparent;
-  border-image: url("../images/blue-border.png") 40 / 12px stretch;
+  border-image: url("../images/blue-border.webp") 40 / 12px stretch;
   background: #fff;
   background-clip: padding-box;
 }
@@ -1274,7 +1274,7 @@ body {
   width: min(80%, 360px);
   height: 12px;
   margin: 0 auto 1.75rem;
-  background: url("../images/blue-line.png") center / 100% 100% no-repeat;
+  background: url("../images/blue-line.webp") center / 100% 100% no-repeat;
 }
 
 .contact__title {
@@ -1344,7 +1344,7 @@ body {
 /* Software sits in one panel above the red skills panels */
 .skills.software {
   border: 14px solid transparent;
-  border-image: url("../images/blue-border.png") 40 / 14px stretch;
+  border-image: url("../images/blue-border.webp") 40 / 14px stretch;
   padding: 1rem 1rem 1.1rem;
   max-width: 820px;
   margin: 0 auto;
@@ -1362,7 +1362,7 @@ body {
 
 .skills-group {
   border: 14px solid transparent;
-  border-image: url("../images/red-border.png") 40 / 14px stretch;
+  border-image: url("../images/red-border.webp") 40 / 14px stretch;
   padding: 0.5rem 1rem 1.15rem;
   display: flex;
   flex-direction: column;
@@ -1408,7 +1408,7 @@ body {
   display: block;
   width: min(96%, 680px);
   border: 12px solid transparent;
-  border-image: url("../images/blue-border.png") 40 / 12px stretch;
+  border-image: url("../images/blue-border.webp") 40 / 12px stretch;
   line-height: 0;
 }
 
